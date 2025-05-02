@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="sh_pos_res_config_inherit_remove_cart_item" model="ir.ui.view">
+        <field name="name">pos.config.settings.remove.cart.item</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="point_of_sale.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <block id="pos_interface_section" position="after">
+                <block title="POS Remove Cart Item">
+                    <setting string="Remove All Item From Cart" help="Allow to remove all product from cart">
+                        <field name="pos_sh_remove_all_item" />
+                        <div class="row mt16" invisible='not pos_sh_remove_all_item'>
+                            <div class="col">
+                                <field name="sh_validation_to_remove_all_item" />
+                                <label for="sh_validation_to_remove_all_item" class=" o_light_label" />
+                            </div>
+                        </div>
+                    </setting>
+                    <setting string="Remove Single Item From Cart" help=" Allow to remove selected product from cart">
+                        <field name="pos_sh_remove_single_item" />
+                        <div class="row mt16" invisible='not pos_sh_remove_single_item'>
+                            <div class="col">
+                                <field name="sh_validation_to_remove_single_item" />
+                                <label for="sh_validation_to_remove_single_item" class=" o_light_label" />
+                            </div>
+                        </div>
+                    </setting>
+                </block>
+            </block>
+        </field>
+    </record>
+</odoo>

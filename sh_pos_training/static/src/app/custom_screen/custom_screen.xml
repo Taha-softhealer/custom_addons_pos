@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="sh_pos_training.custom_screen">
+        <div class="screen-content">
+            <section class="top-content d-flex align-items-center p-2 border-bottom text-center">                
+                <div class="button back btn btn-lg btn-secondary mx-2" t-on-click="back">
+                    <t>Discard</t>
+                </div>
+                <div class="button back btn btn-lg btn-secondary mx-2" t-on-click="create_note">
+                    <t>Create</t>
+                </div>
+            </section>
+            <section class="full-content">
+                <div class="window">
+                    <section class="subwindow">
+                        <div class="subwindow-container">
+                        <div t-if="state.showInput" class="d-flex">
+                            <input type="text" t-model="state.name"/>
+                            <div t-on-click="create_single_note">
+                                <button>
+                                    <i class="fa fa-floppy-o"></i>
+                                </button>
+                            </div>
+                        </div>
+                            <div class="subwindow-container-fix touch-scrollable scrollable-y order-list-scroll sh_pre_define_note_list">
+                                <table class="sh_pre_define_note_table table w-100">
+                                    <thead>
+                                        <tr>
+                                            <th width="70%">Note</th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="template-list-contents">
+                                            <t t-foreach="all_notes" t-as="note" t-key="note.id">
+                                                <tr class="w-100">
+                                                    <td>
+                                                        <input t-if="state.editId==note.id" type="text" t-model="state.editInput"/>
+                                                        <p class="h6" t-else=''><t t-esc="note.name"/></p>
+                                                    </td>
+
+                                                    <td class="edit_note"  t-att-data-id="note.id" t-on-click="() => this.edit_note(note)">
+                                                        <button class="btn btn-info"><i class="fa fa-pencil edit_icon"></i></button>
+                                                    </td>
+                                                    
+                                                    <td class="save_icon" t-if="state.editId==note.id"  t-att-data-id="note.id" t-on-click="save_note">
+                                                        <button class="btn btn-success"><i class="fa fa-floppy-o"></i></button>
+                                                    </td>
+
+                                                    <td class="save_icon"  t-att-data-id="note.id" t-on-click="delete_note">
+                                                        <button class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                                                    </td>
+                                                    
+                                                </tr>
+                                            </t>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </section>
+        </div>
+    </t>
+</templates>

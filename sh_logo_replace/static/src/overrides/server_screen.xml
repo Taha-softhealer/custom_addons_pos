@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+  <t t-name="sh_logo_replace.SaverScreen" t-inherit="point_of_sale.SaverScreen" t-inherit-mode="extension">
+    <xpath expr="//img" position="replace">
+      <img t-att-height="env.isSmall ? 40 : 182" t-attf-src="/web/image?model=res.company&amp;id={{env.services.company.currentCompany.id}}&amp;field=logo" alt="Logo"/>
+    </xpath>
+  </t>
+  <t t-name="sh_logo_replace.Navbar" t-inherit="point_of_sale.Navbar" t-inherit-mode="extension">
+    <xpath expr="//img" position="attributes">
+      <attribute name="t-if">!pos.config.enable_pos_header_logo</attribute>
+    </xpath>
+    <xpath expr="//img" position="after">
+      <img t-if="pos.config.enable_pos_header_logo" class="pos-logo pos-logo mw-100" height="42" t-on-click="() => debug.toggleWidget()" t-attf-src="/web/image/pos.config/{{pos.config.id}}/header_logo" alt="Logo"/>
+    </xpath>
+  </t>
+
+  <t t-name="sh_logo_replace.ReceiptHeader" t-inherit="point_of_sale.ReceiptHeader" t-inherit-mode="extension">
+    <xpath expr="//img" position="attributes">
+      <attribute name="t-if">!props.data.receipt_image</attribute>
+    </xpath>
+    <xpath expr="//img" position="after">
+      <img t-if="props.data.receipt_image" t-att-src="props.data.receipt_image" alt="Logo" class="pos-receipt-logo"/>
+      <t t-esc="console.log(props.data)"/>
+    </xpath>
+  </t>
+</templates>

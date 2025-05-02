@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+th_pos_training.access_sh_order_note,access_sh_order_note,th_pos_training.model_sh_order_note,base.group_user,1,1,1,1
