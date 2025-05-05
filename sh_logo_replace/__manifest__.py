@@ -16,7 +16,12 @@
         "point_of_sale._assets_pos": [
             "sh_logo_replace/static/src/overrides/server_screen.xml",
             "sh_logo_replace/static/src/overrides/models/pos_store.js",
-            "sh_logo_replace/static/src/overrides/product_screen/product_screen.xml"
+            "sh_logo_replace/static/src/overrides/product_screen/product_screen.xml",
+            "sh_logo_replace/static/src/overrides/product_screen/product_screen.js",
+            "sh_logo_replace/static/src/overrides/action_widget/action_widget.xml",
+            "sh_logo_replace/static/src/overrides/action_widget/action_widget.css",
+            "sh_logo_replace/static/src/overrides/action_widget/select_partner.xml",
+            "sh_logo_replace/static/src/overrides/action_widget/num_pad.xml"
         ],
     },
     "auto_install": False,
