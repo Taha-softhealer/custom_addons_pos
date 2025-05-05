@@ -29,6 +29,9 @@ patch(PosStore.prototype, {
     get plusminus(){
         return this.config.group_pos_disable_pm 
     },
+    get newdel(){
+        return this.config.group_pos_disable_newdel 
+    },
 
     
     getReceiptHeaderData(order){

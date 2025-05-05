@@ -21,7 +21,10 @@
             "sh_logo_replace/static/src/overrides/action_widget/action_widget.xml",
             "sh_logo_replace/static/src/overrides/action_widget/action_widget.css",
             "sh_logo_replace/static/src/overrides/action_widget/select_partner.xml",
-            "sh_logo_replace/static/src/overrides/action_widget/num_pad.xml"
+            "sh_logo_replace/static/src/overrides/action_widget/payment_screen.xml",
+            "sh_logo_replace/static/src/overrides/action_widget/navbar.xml",
+            "sh_logo_replace/static/src/overrides/action_widget/ticket_screen.xml",
+            "sh_logo_replace/static/src/overrides/action_widget/control_buttons.xml"
         ],
     },
     "auto_install": False,
