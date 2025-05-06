@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="sh_pos_mrp_custom.shUpdateBomPopup2">
+        <Dialog title="'Product Id'" footer="false" contentClass="'pb-5'" bodyClass="'d-flex flex-column gap-2 border-bottom'">
+            <div class="popup popup-import product-configurator-popup sh_select_bom_popup">
+                <main class="body modal-body">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th class="col-2" scope="col">Component</th>
+                                <th class="col-4" scope="col">Quantity</th>
+                                <th class="col-4" scope="col">Product Unit of Measure</th>
+                                <th class="col-2" scope="col">Delete</th>
+                            </tr>
+                        </thead>
+
+                        <tbody class="sh_bom_component_table">
+                            <t t-foreach="state_lines.components" t-as="com" t-key="com.id">
+                                <tr class="sh-measurement-line-details sh-bom-line" t-att-class="'sh_bom_line'+table_len" t-att-line_len="table_len" t-att-sh_line_id="line_id || false">
+                                    <t t-if="com.sh_product_id">
+                                        <td class="name" t-att-colspan="state_lines.sh_product_id and state_lines.sh_product_id[0] ? '1': '2'">
+                                            <t t-if="props.isfabric">
+                                                <input t-att-class="'form-control sh_bom_line_selection sh_is_fabric sh_bom_line_selection'+table_len" t-att-list="'datalistOptions'+table_len" t-model="state_lines.sh_product_name[1]" t-on-change="onChangeProduct" placeholder="Select a Product..." />
+                                                <datalist t-att-id="'datalistOptions'+table_len">
+                                                    <t t-foreach="fabric_products" t-as="product" t-key="product.id">
+                                                        <t t-if="product.id != state_lines.sh_product_id[0] ">
+                                                            <t t-set="sh_product_name" t-value="product.display_name.replaceAll(' ','_')"></t>
+                                                            <option t-att-value="sh_product_name" t-att-data-product_id="product.id"></option>
+                                                        </t>
+                                                    </t>
+                                                </datalist>
+                                            </t>
+                                            <t t-else="">
+                                                <input t-att-class="'form-control sh_bom_line_selection sh_bom_line_selection'+table_len" t-att-list="'datalistOptions'+table_len" t-model="state_lines.sh_product_name[com.id]" t-on-change="(ev) => this.onchangeProduct(ev, com.id)" placeholder="Select a Product..." />
+                                                <datalist t-att-id="'datalistOptions'+table_len">
+                                                    <t t-foreach="products" t-as="product" t-key="product.id">
+
+                                                        <t t-if="product.id == com.sh_product_id.id">
+                                                            <option t-att-value="product.display_name.replaceAll(' ','_')" t-att-data-product_id="product.id">
+                                                            </option>
+                                                        </t>
+                                                        <t t-if="product.id != com.sh_product_id.id ">
+                                                            <t t-set="sh_product_name" t-value="product.display_name.replaceAll(' ','_')"></t>
+                                                            <option t-att-selected="com.raw.product_id" t-att-value="sh_product_name" t-att-data-product_id="product.id"></option>
+                                                        </t>
+                                                    </t>
+                                                </datalist>
+                                            </t>
+                                        </td>
+                                    </t>
+
+                                    <t t-else="">
+                                        <td class="name" colspan="2">
+
+                                            <input t-att-class="'form-control sh_bom_line_selection sh_bom_line_selection'+table_len" t-att-list="'datalistOptions'+table_len" t-on-change="(ev) => this.add_onchangeProduct(ev, com.id)" placeholder="Select a Product..." t-model="state_lines.sh_product_name[com.id]"/>
+                                            <datalist t-att-id="'datalistOptions'+table_len">
+                                                <t t-foreach="products" t-as="product" t-key="product.id">
+                                                    <option t-att-value="product.display_name.replaceAll(' ','_')" t-att-data-product_id="product.id">
+                                                    </option>
+                                                </t>
+                                            </datalist>
+                                        </td>
+                                    </t>
+
+                                    <t t-if="state_lines.quantity[com.id]">
+                                        <td class="size">
+                                            <input type="number" t-att-class="'form-control sh_bom_quantity sh_bom_quantity'+table_len" t-model="state_lines.quantity[com.id]" t-att-name="'Quantity'+table_len" t-on-change="changeQuantity"/>
+                                        </td>
+                                    </t>
+                                    <t t-else="">
+                                        <td class="size">
+                                            <input type="number" t-att-class="'form-control sh_bom_quantity sh_bom_quantity'+table_len" t-att-name="'Quantity'+table_len" t-model="state_lines.quantity[com.id]" t-on-change="changeQuantity"/>
+                                        </td>
+                                    </t>
+                                    <t t-if="com.sh_product_id">
+                                        <td>
+                                            <select t-att-name="'sh_bom_unit_'+table_len" t-att-disabled="props.isfabric" t-att-class="'form-control sh_bom_unit_selection sh_bom_unit_selection_'+table_len" class="operator" t-model="state_lines.sh_product_uom[com.id]">
+                                                <t t-foreach="this.get_unites(com.sh_product_id)" t-as="unit" t-key="unit.id">
+                                                    <option t-att-value="unit.id" t-att-product_name="unit.display_name" t-att-selected="unit.id == state_lines.sh_product_uom[com.id]">
+                                                        <t t-esc="unit.name"/>
+                                                    </option>
+                                                </t>
+                                            </select>
+                                        </td>
+                                    </t>
+                                    <t t-else="">
+                                        <td>
+                                            <select t-att-name="'sh_bom_unit_'+table_len" t-att-class="'form-control sh_bom_unit_selection sh_bom_unit_selection_'+table_len" class="operator" t-model="state_lines.sh_product_uom[com.id]" t-on-change="onchangeUOM">
+                                                <t t-foreach="state.set_units" t-as="unit" t-key="unit.id">
+                                                    <option t-att-value="unit.id" t-att-product_name="unit.display_name">
+                                                        <t t-esc="unit.name" />
+                                                    </option>
+                                                </t>
+                                            </select>
+                                        </td>
+                                    </t>
+                                    <td>
+
+                                        <button class='btn btn-secondary remove_line' t-if="!props.isfabric" id='remove_table_len' t-on-click="(ev) => this.remove_measurement_line(ev,com.id)">
+                                            <span class='fa fa-trash-o' ></span>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </t>
+
+
+                        </tbody>
+
+                        <tfoot class="border-0">
+                            <tr>
+                                <td colspan='5' style="text-align: left; border-bottom:0;">
+                                    <button class="button confirm btn btn-sm btn-primary" t-on-click="add_new_line">add line</button>
+                                </td>
+                            </tr>
+                        </tfoot>
+
+                    </table>
+                    <div class="note_popup">
+                        <h3 class="d-flex align-items-center mb-0">
+                            <span class="modal-title note_title me-2">Note : </span>
+                            <textarea name="sh_component_note" t-model="props.sh_component_note" class="form-control sh_component_note" id="sh_component_note" />
+                        </h3>
+                    </div>
+                </main>
+                <footer class="footer modal-footer">
+                    <t t-if="props.continue" >
+                        <div class="button cancel btn btn-lg btn-primary" t-on-click="continue">
+                            Continue
+                        </div>
+                    </t>
+                    <t t-else="" >
+                        <div class="button cancel btn btn-lg btn-primary" t-on-click="confirm">
+                            Confirm
+                        </div>
+                    </t>
+
+                </footer>
+
+
+            </div>
+        </Dialog>
+    </t>
+
+</templates>

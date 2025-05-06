@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="sh_measurement_line_form" model="ir.ui.view">
+        <field name="name">sh.measurement.line.form</field>
+        <field name="model">sh.measurement.line</field>
+        <field name="arch" type="xml">
+            <form string="Measurement details line">
+                <sheet>
+                    <group col="4">
+                        <field name="sh_measurement_type_id" />
+                        <field name="sh_enter_size_length" />
+                        <field name="size_1" invisible="sh_enter_size_length &lt; 1" />
+                        <field name="size_2" invisible="sh_enter_size_length &lt; 2" />
+                        <field name="size_3" invisible="sh_enter_size_length &lt; 3" />
+                        <field name="size_4" invisible="sh_enter_size_length &lt; 4" />
+                        <field name="size_5" invisible="sh_enter_size_length &lt; 5" />
+                        <field name="size_6" invisible="sh_enter_size_length &lt; 6" />
+                        <field name="size_7" invisible="sh_enter_size_length &lt; 7" />
+                        <field name="size_8" invisible="sh_enter_size_length &lt; 8" />
+                        <field name="size_9" invisible="sh_enter_size_length &lt; 9" />
+                        <field name="size_10" invisible="sh_enter_size_length &lt; 10" />
+                        <field name="sh_uom_id" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="sh_measurement_line_list" model="ir.ui.view">
+        <field name="name">sh.measurement.line.list</field>
+        <field name="model">sh.measurement.line</field>
+        <field name="arch" type="xml">
+            <list string="Measurement Detail lines">
+                <field name="sh_measurement_type_id"/>
+                <field name="sh_enter_size_length"/>
+                <field name="size_1" invisible="sh_enter_size_length > 1" />
+                <field name="size_2" invisible="not size_2" />
+                <field name="size_3" invisible="not size_3" />
+                <field name="size_4" invisible="not size_4" />
+                <field name="size_5" invisible="not size_5" />
+                <field name="size_6" invisible="not size_6" />
+                <field name="size_7" invisible="not size_7" />
+                <field name="size_8" invisible="not size_8" />
+                <field name="size_9" invisible="not size_9" />
+                <field name="size_10" invisible="not size_10" />
+                <field name="sh_uom_id"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="list_action_sh_measurement_line" model="ir.actions.act_window">
+        <field name="name">Measurement detail lines</field>
+        <field name="res_model">sh.measurement.line</field>
+        <field name="view_mode">list</field>
+        <field name="view_id" ref="sh_measurement_line_list"/>
+    </record>
+    <record id="form_action_sh_measurement_line" model="ir.actions.act_window">
+        <field name="name">Measurement detail line</field>
+        <field name="res_model">sh.measurement.line</field>
+        <field name="view_mode">form,list</field>
+        <field name="view_id" ref="sh_measurement_line_form"/>
+    </record>
+</odoo>

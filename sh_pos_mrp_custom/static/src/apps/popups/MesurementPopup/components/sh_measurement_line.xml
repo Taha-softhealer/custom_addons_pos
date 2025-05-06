@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="sh_pos_mrp_custom.ShMeasurementLineData">
+        <t t-set="table_len" t-value="props.table_len"></t>
+        <tr class="sh-measurement-line-details sh-measurement-line-data" t-attf-class="{{props.is_new_line ? 'sh_measurement_new_line':''}}" t-att-line_len="table_len" t-att-sh_line_id="line_id">
+            <td class="name">
+                <input t-att-name="'sh_measurement_type_'+table_len" t-att-value="changes.sh_measurement_type_id" t-att-measurement_id="props.line.sh_measurement_type_id ? props.line.sh_measurement_type_id[0] : props.line.id" t-att-class="'form-control sh_measurement_type_selection sh_measurement_type_selection_'+table_len" disabled="true" />
+            </td>
+            <td class="size d-flex flex-wrap gap-1">
+                <t t-set="size_len" t-value="1"></t>
+                <t t-foreach="sh_size_array(props.line)" t-as="size" t-key="size">
+                    <input t-att-class="'form-control  sh_measurement_size sh_measurement_size_'+size_len" t-att-value="size" t-att-name="'size_'+size_len" t-on-change="ShChnageSize" t-att-id="'size_'+size_len" />
+                    <t t-set="size_len" t-value="size_len + 1" ></t>
+                </t>
+            </td>
+            <td class="sh_uom">
+                <select t-att-name="'sh_measurement_type_unit_'+table_len" t-att-class="'form-control sh_measurement_type_unit_selection sh_measurement_type_unit_selection_'+table_len">
+                    <t t-foreach="get_unites" t-as="unit" t-key="unit.id">
+                        <t t-if=" unit.id == changes.unit_id " >
+                            <option t-att-value="unit.id" selected="true">
+                                <t t-esc="unit.display_name" />
+                            </option>
+                        </t>
+                        <t t-else="" >
+                            <option t-att-value="unit.id">
+                                <t t-esc="unit.display_name" />
+                            </option>
+                        </t>
+                    </t>
+                </select>
+            </td>
+        </tr>
+    </t>
+</templates>

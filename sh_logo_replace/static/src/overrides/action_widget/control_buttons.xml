@@ -5,8 +5,8 @@
             <!-- <attribute name="t-attf-class">{{this.pos.newdel ? 'hide_btn' : ""}}</attribute> -->
             <!-- <t t-esc="console.log(this.pos.newdel)"/> -->
         <!-- </xpath> -->
-        <xpath expr="//button[@ t-on-click='() => this.pos.onDeleteOrder(this.pos.get_order())']" position="attributes">
+        <!-- <xpath expr="//button[@ t-on-click='() => this.pos.onDeleteOrder(this.pos.get_order())']" position="attributes">
             <attribute name="t-attf-class">{{this.pos.newdel ? 'hide_btn' : ""}}</attribute>
-        </xpath>
+        </xpath> -->
 </t>
 </templates>

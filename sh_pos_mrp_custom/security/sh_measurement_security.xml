@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record model="ir.module.category" id="module_category_manufacturing_sh_measurement_line">
+        <field name="name">Measurement</field>
+        <field name="description">Helps you get the most out of your measurement details</field>
+        <field name="sequence">1</field>
+    </record>
+
+
+    <record id="sh_size_man" model="res.groups">
+        <field name="name"> Size man </field>
+    </record>
+
+    <record id="sh_group_measurement_user" model="res.groups">
+        <field name="name">User</field>
+        <field name="category_id" ref="module_category_manufacturing_sh_measurement_line"/>
+    </record>
+    <record id="sh_group_measurement_manager" model="res.groups">
+        <field name="name">Administrator</field>
+        <field name="category_id" ref="module_category_manufacturing_sh_measurement_line"/>
+        <field name="implied_ids" eval="[(4, ref('sh_group_measurement_user')),(4, ref('point_of_sale.group_pos_user'))]"/>
+        <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+    </record>
+    
+</odoo>

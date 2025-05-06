@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="sh_measurement_form" model="ir.ui.view">
+        <field name="name">sh.measurement.form</field>
+        <field name="model">sh.measurement</field>
+        <field name="arch" type="xml">
+            <form string="Measurement detail">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1>
+                            <field name="name" class="o_text_overflow" placeholder="e.g. Year" required="True"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="sh_partner_id"></field>
+                            <field name="sh_measurement_note"></field>
+                            <field name="employee_id" readonly='1' ></field>
+                        </group>
+                        <group>
+                            <field name="gender" widget="radio"></field>
+                            <field name="category_id" domain="[('sh_gender', '=', gender)]"></field>
+                        </group>
+                        <notebook>
+                            <page name="sh_measurement_line_page" string="Measurement">
+                                <group>
+                                    <field name="sh_measurement_line_ids">
+                                        <list editable="bottom" delete="0">
+                                            <field name="sh_measurement_type_id" readonly="sh_measurement_type_id != False"></field>
+                                            <field name="sh_enter_size_length" column_invisible="1"></field>
+                                            <field name="size_1" invisible="sh_enter_size_length &lt; 1" />
+                                            <field name="sh_uom_id_reated" column_invisible='True' ></field>
+                                            <!-- <field name="size_2" invisible="sh_enter_size_length &lt; 2" />
+                                        <field name="size_3" invisible="sh_enter_size_length &lt; 3" />
+                                        <field name="size_4" invisible="sh_enter_size_length &lt; 4" />
+                                        <field name="size_5" invisible="sh_enter_size_length &lt; 5" />
+                                        <field name="size_6" invisible="sh_enter_size_length &lt; 6" />
+                                        <field name="size_7" invisible="sh_enter_size_length &lt; 7" />
+                                        <field name="size_8" invisible="sh_enter_size_length &lt; 8" />
+                                        <field name="size_9" invisible="sh_enter_size_length &lt; 9" />
+                                        <field name="size_10" optional="hide" invisible="sh_enter_size_length &lt; 10"/> -->
+                                            <field name="sh_uom_id" domain="[('id','in',sh_uom_id_reated)]"></field>
+                                        </list>
+                                    </field>
+                                </group>
+                            </page>
+                            <page name="sh_design" string="Design">
+                                <group>
+                                    <field name="sh_design" >
+                                    </field>
+                                </group>
+                            </page>
+                        </notebook>
+                    </group>
+                </sheet>
+                <!-- <footer>
+                    <button string="Save" special="save" class="btn-primary" />
+                    <button string="Update Componenet" class="btn-secondary" special="cancel" />
+                </footer> -->
+            </form>
+        </field>
+    </record>
+    <record id="sh_measurement_list" model="ir.ui.view">
+        <field name="name">sh.measurement.list</field>
+        <field name="model">sh.measurement</field>
+        <field name="arch" type="xml">
+            <list string="Measurement Details">
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+    <record id="sh_measurement_action_edit_pos" model="ir.actions.act_window">
+        <field name="name">Measurement Details</field>
+        <field name="res_model">sh.measurement</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context" eval=""/>
+        <field name="view_id" ref="sh_pos_mrp_custom.sh_measurement_form"/>
+    </record>
+
+    <record id="action_measurement_model" model="ir.actions.act_window">
+        <field name="name">Measurement</field>
+        <field name="res_model">sh.measurement</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Define a new Measurement
+            </p>
+            <p>
+                a details
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="main_measurement_menu" name="Measurements" parent="point_of_sale.menu_point_config_product" action="action_measurement_model" />
+
+</odoo>

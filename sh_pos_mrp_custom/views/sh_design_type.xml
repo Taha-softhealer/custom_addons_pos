@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="sh_design_type_list_view" model="ir.ui.view">
+        <field name="name">sh.design.type.list</field>
+        <field name="model">sh.design.type</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"></field>
+                <field name="design_category"></field>
+                <field name="image" widget="image" options='{"size": [100, 100]}'></field>
+            </list>
+        </field>
+    </record>
+
+    <record id="sh_design_type_form_view" model="ir.ui.view">
+        <field name="name">sh.design.type.form</field>
+        <field name="model">sh.design.type</field>
+        <field name="arch" type="xml">
+            <form string="design category">
+                <sheet>
+                    <field name="image" widget="image" class="oe_avatar"></field>
+                    <group>
+                        <field name="name"></field>
+                        <field name="design_category"></field>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="sh_design_type_action" model="ir.actions.act_window">
+        <field name="name">design type</field>
+        <field name="res_model">sh.design.type</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+
+    <menuitem id="sh_design_type_action_menu" name="Design Type" action="sh_design_type_action" parent="point_of_sale.menu_point_config_product"/>
+
+</odoo>

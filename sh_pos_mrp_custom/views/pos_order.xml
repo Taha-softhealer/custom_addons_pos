@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="sh_pos_order_form_view_inherit" model="ir.ui.view">
+        <field name="name">pos.order.form.inherit</field>
+        <field name="model">pos.order</field>
+        <field name="inherit_id" ref="point_of_sale.view_pos_pos_form" />
+        <field name="arch" type="xml">
+            <div name="button_box" position="inside">
+                <field name="sh_production_count" invisible="True" />
+                <button name="action_open_productions" type="object"
+                    class="oe_stat_button" icon="fa-industry"
+                    invisible="sh_production_count == 0">
+                    <field string="Manufacturing Orders" name="sh_production_count"
+                        widget="statinfo" />
+                </button>
+            </div>
+            <field name="partner_id" position="after">
+                <field name="sh_measurement_id"></field>
+            </field>
+
+            <notebook position="inside">
+                <page name="sh_modification_request_line_page" string="Modification Request">
+                    <field name="sh_modification_request_line">
+                        <list create='0' delete='0'>
+                            <field name="pos_order_id" column_invisible="True" />
+                            <field name="production_id" column_invisible="True" />
+                            <field name="company_id" column_invisible="True" />
+                            <field name="serial_no" />
+                            <field name="final_product_id" />
+                            <field name="modified_product_id" />
+                            <field name="product_uom_id" />
+                            <field name="product_qty" />
+                        </list>
+                    </field>
+                </page>
+            </notebook>
+        </field>
+    </record>
+</odoo>

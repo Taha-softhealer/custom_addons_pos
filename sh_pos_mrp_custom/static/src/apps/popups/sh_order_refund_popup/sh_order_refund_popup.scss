@@ -1,0 +1,46 @@
+.sh-show-reason-input{
+    display: block !important;
+}
+.sh-hide-reason-input{
+    display: none;
+}
+
+
+.pos {
+    .popups{
+        .modal-dialog{
+            .sh-refund-popup{
+                .modal-body{
+                    max-height: 450px;
+                    overflow: auto;
+                    padding: 0;
+                    .table {
+                        @include media-breakpoint-down(md) {
+                            white-space: nowrap;
+                        }
+                    }
+                    .sh_refund_employee{
+                        margin: 18px 0;
+                        padding: 10px;
+                    }
+                    .selection-item{
+                        margin-bottom: 15px;
+                        width: 100%;
+                        .sh_refund_reason_name{                      
+                            font-size: 18px;
+                            text-transform: capitalize;
+                        }
+                        .sh_refund_reason {
+                            resize: none;
+                            border-color: #d8dadd;
+                            margin-top: 5px;
+                        }
+                        &:last-child{
+                            margin-bottom: 0;
+                        }
+                    }
+                }                
+            }
+        }
+    }
+}

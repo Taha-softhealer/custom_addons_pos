@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="sh_pos_mrp_custom.MeasurementPopup">
+        <!-- <div class="popup sh_create_measurement_popup">
+            <div class="modal-header drag-handle">
+                <h4 class="modal-title">Measurement Details</h4>
+            </div>
+            <div class="d-flex justify-content-between name_popup">
+                <div class="d-flex w-100 justify-content-between">
+                    <div class="w-75">
+                        <div class="oe_title d-flex align-items-center w-100">                        
+                            <h3 name="name" class="w-100 o_field_widget o_required_modifier o_field_char o_text_overflow d-flex align-items-center">
+                                <span class="modal-title sh_name me-2" for="name_0">Name : </span>
+                                <input class="form-control o_input" id="name_0" type="text" t-model="changes.name" name ="name" autocomplete="off" placeholder="e.g. Year" />
+                            </h3>                        
+                        </div>
+                        <div class="oe_title d-flex align-items-center w-100">                        
+                            <h3 name="name" class="o_field_widget o_required_modifier o_field_char o_text_overflow d-flex align-items-center  w-75">
+                                <span class="modal-title me-2  w-50" for="name_0">Category : </span>
+                                <input class="form-control" list="shCategoryOptions" t-model="changes.category_name" t-on-change="onChangeCategory" placeholder="Select a Category..." />
+                                <datalist id="shCategoryOptions">
+                                    <t t-foreach="Object.values(pos.sh_measurement_category_by_id)" t-as="category" t-key="category.id">
+                                        <option t-att-value="category.name.replaceAll(' ','_')" t-att-data-category_id="category.id"></option>
+                                    </t>
+                                </datalist>
+                            </h3>   
+                            
+                            
+                        </div>
+                        <div class="oe_title d-flex align-items-center w-100">                        
+                            <h3 name="name" class="o_field_widget o_required_modifier o_field_char o_text_overflow d-flex align-items-center w-75">
+                                <span class="modal-title me-2 w-50" for="name_0">Employee : </span>
+                            <input class="form-control sh_measurement_employee" t-model="changes.employee_name" list="shEmployeeOptions" placeholder="Select a employee..." />
+                            <datalist id="shEmployeeOptions">
+                                <t t-foreach="pos.sh_all_employees" t-as="emp" t-key="emp.id">
+                                    <option t-att-value="emp.name.replaceAll(' ','_')" t-att-data-employee_id="emp.id"></option>
+                                </t>
+                            </datalist>
+                            </h3>                        
+                        </div>
+                    </div>
+                    <div class="w-25">
+                        <div class="sh_measurement_category_img_box">
+                            <img class="w-100 h-100 sh_measurement_category_img" t-att-src="imageUrl" t-att-alt="'category img'" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <main class="modal-body sh_discount_main_table">
+                <table class="table table-striped mb-0">
+                    <thead>
+                        <tr>
+                            <th class="col-2" scope="col">Measurement Type</th>
+                            <th class="col-4" scope="col">Size</th>
+                            <th class="col-2" scope="col">Type UoM</th>
+                        </tr>
+                    </thead>
+                    <tbody class="sh_measurement_line_table" t-ref="sh-measurement-line-details">
+                        <t t-if="get_measurement_types and get_measurement_types.length" >
+                            <t t-set="type_len" t-value="0"  />
+                            <t t-foreach="get_measurement_types" t-as="type" t-key="type.id" >
+                                <ShMeasurementLineData line="type" table_len="type_len" />
+                                <t t-set="type_len" t-value="type_len + 1"   />
+                            </t>
+                        </t>
+                        <t t-else="" >
+                            <t t-set="line_len" t-value="0"  />
+                            <t t-if="get_measurement_lines and get_measurement_lines.length" >
+                                <t t-foreach="get_measurement_lines" t-as="line" t-key="line.id" >
+                                    <ShMeasurementLineData line="line" table_len="line_len" />
+                                    <t t-set="line_len" t-value="line_len + 1"   />
+                                </t>
+                            </t>
+                        </t>
+                    </tbody>
+                </table>
+                
+            </main>
+            <div class="note_popup">
+                <h3 class="d-flex align-items-center mb-0">
+                    <span class="modal-title note_title me-2">Note : </span>
+                    <textarea name="sh_measurement_note" t-model="changes.sh_measurement_note" class="form-control sh_measurement_note" id="sh_measurement_note" />
+                </h3>
+            </div>
+            <footer class="footer sh_discount_footer modal-footer">
+                <t t-if="selectedMeasurement">
+                    <button class="button confirm btn btn-lg btn-primary" t-on-click="shEdit">
+                        Edit &amp; Set 
+                    </button>
+                    <button class="button confirm btn btn-lg btn-primary" t-on-click="CreateNew">
+                        Create New
+                    </button>
+                </t>
+                <t t-else="">
+                    <button class="button confirm btn btn-lg btn-primary" t-on-click="sh_create">
+                        Create &amp; Set
+                    </button>
+                </t>
+                <button class="button cancel btn btn-lg btn-secondary" t-on-click="cancel">
+                    Cancel
+                </button>
+            </footer>
+        </div> -->
+        <Dialog title="'Product Id'" footer="false" contentClass="'pb-5'" bodyClass="'d-flex flex-column gap-2 border-bottom'">
+        <h1>Dabhi Harpal</h1>
+
+        </Dialog>
+    </t>
+</templates>
+                

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="sh_pos_mrp_custom.ShOrderRefundPopup">
+        <div class="popup popup-selection sh-refund-popup">
+            <div class="modal-header drag-handle">
+                <h4 class="modal-title">
+                    Refund
+                </h4>
+            </div>
+            <div class="modal-body justify-content-start w-100 p-3 overflow-y-auto">
+                <div>
+                    <span class="sh_refund_employuee_name">
+                        Select Employee 
+                    </span>
+
+                    <input class="form-control sh_refund_employee" t-model="state.employee_name" list="shEmployeeOptions" placeholder="Select a employee..." />
+                    <datalist id="shEmployeeOptions">
+                        <t t-foreach="pos.sh_all_employees" t-as="emp" t-key="emp.id">
+                            <option t-att-value="emp.name.replaceAll(' ','_')" t-att-data-employee_id="emp.id"></option>
+                        </t>
+                    </datalist>
+                </div>
+                <t t-set="reason_len" t-value="1"/>
+                <t t-foreach="props.list" t-as="item" t-key="item.id">
+                    <div class="selection-item d-flex align-items-center justify-content-between btn btn-lg btn-outline-secondary w-100 p-3 text-start each_refund_reason" t-att-class="{ 'selected active': item.isSelected }">
+                        <div class="w-100">
+                            <t t-if="item.is_selection">
+                                <t t-if="item.refund_selection_ids and item.refund_selection_ids.length">
+                                    <span t-esc="item.name" class="sh_refund_reason_name" t-att-item_id="item.id"/>
+                                    <select class="form-control sh_refund_reason_name sh_refund_reason sh_refund_reason_selected_note" t-att-item_id="item.id">
+                                        <t t-foreach="item.refund_selection_ids" t-as="selection" t-key="selection.id">
+                                            <option t-att-value="selection.name">
+                                                <t t-esc="selection.name"></t>
+                                            </option>
+                                        </t>
+                                    </select>
+                                </t>
+                            </t>
+                            <t t-else="">
+                                <span t-esc="item.name" class="sh_refund_reason_name" t-att-item_id="item.id"/>
+                                <textarea t-att-class="'form-control sh_refund_reason sh_refund_reason_'+reason_len" t-att-name="'sh_texarea'+reason_len" />
+                            </t>
+                        </div>
+                    </div>
+                    <t t-set="reason_len" t-value="reason_len + 1"/>
+                </t>
+            </div>
+
+            <footer class="footer modal-footer">
+                <div class="button cancel btn btn-lg btn-primary" t-on-click="confirm">
+                    Refund
+                </div>
+                <div class="button cancel btn btn-lg btn-primary" t-on-click="cancel">
+                    Cancel
+                </div>
+            </footer>
+        </div>
+    </t>
+
+</templates>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="sh_pos_mrp_custom.BomAddLineComponent">
+        <tr class="sh-measurement-line-details sh-bom-line" t-att-class="'sh_bom_line'+table_len" t-att-line_len="table_len" t-att-sh_line_id="line_id || false">
+                    <td class="name">
+                   
+                            <input t-att-class="'form-control sh_bom_line_selection sh_bom_line_selection'+table_len" t-att-list="'datalistOptions'+table_len"  t-on-change="(ev) => this.onchangeProduct(ev)" placeholder="Select a Product..." t-model="line.product_id"/>
+                            <datalist t-att-id="'datalistOptions'+table_len">
+                                <t t-foreach="props.products" t-as="product" t-key="product.id">
+                                        <option t-att-value="product.display_name.replaceAll(' ','_')" t-att-data-product_id="product.id">
+                                        </option>
+                                </t>
+                            </datalist>
+                      
+                    </td>
+                     <td class="size">
+                        <input type="number"  t-att-class="'form-control'" t-model="line.qty" t-att-name="'Quantity'+table_len" />
+                    </td>
+                  <td>
+                        <select t-att-class="'form-control sh_bom_unit_selection sh_bom_unit_selection_'+table_len" class="operator" t-model="line.unit">
+                            <t t-foreach="unites" t-as="unit" t-key="unit.id">
+                                <option t-att-value="unit.id" t-att-product_name="unit.display_name">
+                                    <t t-esc="unit.name" />
+                                </option>
+                            </t>
+                        </select>
+                    </td>
+                   <td>
+                        <button class='btn btn-secondary remove_line' id='remove_table_len' t-on-click="() => this.remove_measurement_line()">
+                            <span class='fa fa-trash-o' ></span>
+                        </button>
+                    </td>
+                </tr>
+    </t>
+
+</templates>

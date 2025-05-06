@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="portal_my_home_menu_pos_order" name="Portal layout : POS orders menu entries" inherit_id="portal.portal_breadcrumbs" priority="30">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li t-if="page_name == 'pos_order'" t-attf-class="breadcrumb-item #{'active ' if not pos_order else ''}">
+                <a t-if="pos_order" t-attf-href="/my/pos/orders?{{ keep_query() }}">POS Orders</a>
+                <t t-else="">POS Orders</t>
+            </li>
+        </xpath>
+    </template>
+
+    <template id="portal_my_home_pos_order" name="Show Point of Sales Order"
+        inherit_id="portal.portal_my_home" customize_show="True" priority="30">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="before">
+            <t t-set="portal_client_category_enable" t-value="True" />
+        </xpath>
+
+        <div id="portal_client_category" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="icon" t-value="'/account/static/src/img/Bill.svg'" />
+                <t t-set="title">Your POS Orders</t>
+                <t t-set="url" t-value="'/my/pos/orders'" />
+                <!-- <t t-set="text">Follow, download or pay your invoices</t> -->
+                <t t-set="placeholder_count" t-value="'pos_order_count'" />
+            </t>
+        </div>
+    </template>
+
+    <template id="portal_my_pos_orders" name="My POS Orders">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True" />
+
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Invoices</t>
+            </t>
+            <t t-if="not pos_orders">
+                <p class="alert alert-warning">There are currently no POS Orders for your account.</p>
+            </t>
+            <t t-if="pos_orders" t-call="portal.portal_table">
+                <t t-set="classes" t-value="'accordion sh_pos_orders_portal'" />
+                <thead>
+                    <tr class="active">
+                        <th>Order Ref</th>
+                        <th>Date</th>
+                        <th>Receipt Number</th>
+                        <th>Customer</th>
+                        <th class="text-end">Total</th>
+                        <th>Status</th>
+                        <th>Delivery Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <t t-foreach="pos_orders" t-as="order">
+                        <t t-set="pos_lines_sub_table_id"
+                            t-value="'pos_lines_sub_table_'+ '_'.join([str(line.id) for line in order.lines])" />
+                        <tr>
+                            <th>
+                                <span t-field="order.name" />
+                            </th>
+                            <th>
+                                <span t-field="order.date_order"></span>
+                            </th>
+                            <th>
+                                <span t-field="order.pos_reference"></span>
+                            </th>
+                            <th>
+                                <span t-field="order.partner_id"></span>
+                            </th>
+                            <th class="text-end">
+                                <span t-field="order.amount_total"
+                                    t-options='{"widget": "monetary", "display_currency": order.currency_id}'></span>
+                            </th>
+                            <th>
+                                <span t-field="order.state"
+                                    t-attf-class="badge rounded-pill #{'text-bg-success' if order.state in ('paid','done','invoiced') else 'text-bg-danger' if order.state=='cancel' else 'text-bg-primary'}"></span>
+                            </th>
+                            <th>
+                                <span t-field="order.sh_delivery_state"></span>
+                            </th>
+                            <th>
+                                <button t-if="order.lines.sh_production_line"
+                                    class="accordion-button collapsed rounded p-0" type="button"
+                                    data-bs-toggle="collapse" aria-expanded="false"
+                                    t-att-data-bs-target="'#'+ pos_lines_sub_table_id" />
+                            </th>
+                        </tr>
+                        <tr t-if="order.lines.sh_production_line"
+                            class="collapse accordion-collapse"
+                            data-bs-parent=".sh_pos_orders_portal" t-att-id="pos_lines_sub_table_id">
+                            <td colspan="8">
+                                <t t-call="portal.portal_table">
+                                    <t t-set="classes" t-value="'w-100'" />
+                                    <thead>
+                                        <tr>
+                                            <th>Product</th>
+                                            <th class="text-end">Quantity</th>
+                                            <th>State</th>
+                                        </tr>
+                                    </thead>
+                                    <t t-foreach="order.lines" t-as="line">
+                                        <tbody>
+                                            <t t-foreach="line.sh_production_line" t-as="production">
+                                                <tr>
+                                                    <td>
+                                                        <span t-field="production.product_id" />
+                                                    </td>
+                                                    <td class="text-end">
+                                                        <span t-field="production.product_qty" />
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="production.state" />
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </t>
+                                </t>
+                            </td>
+                        </tr>
+                    </t>
+                </tbody>
+            </t>
+        </t>
+    </template>
+
+</odoo>

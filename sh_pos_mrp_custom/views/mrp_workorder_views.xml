@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    
+
+    <record id="mrp_production_workorder_form_view_inherit_inherit" model="ir.ui.view">
+        <field name="name">mrp.workorder.view.form.inherit</field>
+        <field name="model">mrp.workorder</field>
+        <field name="inherit_id" ref="mrp.mrp_production_workorder_form_view_inherit"/>
+        <field name="arch" type="xml">
+            <notebook position="inside">
+                <page name="sh_mrp_employee_commission_line_page" string="Employee Commission">
+                    <field name="sh_mrp_employee_commission_line">
+                        <list editable="bottom">
+                            <field name="name" column_invisible="True" />
+                            <field name="workorder_id" column_invisible="True"/>
+                            <field name="employee_id" options="{'no_create':True}" />
+                            <field name="commission_percentage" />
+                        </list>
+                    </field>
+                </page>
+            </notebook>
+        </field>
+    </record>
+
+    <record id="mrp_production_workorder_list_editable_view_inherit" model="ir.ui.view">
+        <field name="name">mrp.workorder.view.list.inherit</field>
+        <field name="model">mrp.workorder</field>
+        <field name="inherit_id" ref="mrp.mrp_production_workorder_tree_editable_view"/>
+        <field name="arch" type="xml">
+            <field name="product_id" position="after">
+                <field name="sh_mrp_employee_commission_line" string="Employee Commissions" optional="show" widget="many2many_tags" readonly="True" />
+            </field>
+        </field>
+    </record>
+
+</odoo>

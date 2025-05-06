@@ -1,0 +1,75 @@
+.pos .modal-dialog .popup{
+    &.sh_select_bom_popup{
+        max-width: 980px !important;
+        z-index: 1;
+        .note_popup{
+            padding:16px;
+            border-top: 1px solid #d8dadd;
+            position: sticky;
+            // bottom: 0;
+            background: #fff;
+            .note_title{
+                width: 15%;
+                @include media-breakpoint-down(md) {
+                    white-space: nowrap;
+                }
+            }
+        }
+        .sh_measurement_note{
+            resize: none;
+        }
+        .modal-body{
+            max-height: 450px;
+            overflow: auto;
+            padding: 0;
+            .table {
+                @include media-breakpoint-down(md) {
+                    white-space: nowrap;
+                }
+            }
+            .table {                
+                margin-bottom: 0    !important;
+                thead{
+                    position: sticky;
+                    top: 0;
+                    tr{
+                        th{
+                            background-color: #ebebeb;
+                        }
+                    }
+                }
+                tfoot{
+                    position: sticky;
+                    bottom: 0;
+                    background-color: #fff;
+                }
+            }
+            .sh_measurement_line_table{
+                .sh-measurement-line-details{
+                    border-bottom: 1px solid #ccc;
+                    .size {
+                        border-bottom: 0px solid #ccc;
+                        &:empty{
+                            border: none !important;
+                        }
+                        .sh_measurement_size {
+                            width: 48%;
+                            @include media-breakpoint-down(md) {
+                                width: 100%;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .oe_title{
+            text-align: left;
+        }
+        #name_0{
+            width: 50% !important;
+        }
+    }
+}
+.sh_component_note{
+    resize: none !important;
+}

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="sh_refund_notes_form" model="ir.ui.view">
+        <field name="name">sh.refund.notes.form</field>
+        <field name="model">sh.refund.note</field>
+        <field name="arch" type="xml">
+            <form string="Refund Note" >
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1>
+                            <field name="name" class="o_text_overflow" placeholder="e.g. Damaged" required="True"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <!-- <group>
+                            <field name="is_selection" />
+                            <field name="refund_selection_ids" invisible="not is_selection" >
+                                <list editable="botton">
+                                    <field name="name"></field>
+                                </list>
+                            </field>
+                        </group> -->
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="sh_refund_notes_list" model="ir.ui.view">
+        <field name="name">sh.refund.note.list</field>
+        <field name="model">sh.refund.note</field>
+        <field name="arch" type="xml" >
+            <list string="Refund Notes">
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_sh_refund_note_type" model="ir.actions.act_window" >
+        <field name="name">Refund Notes</field>
+        <field name="res_model">sh.refund.note</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_id" eval="False"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Define a Pre define refund notes
+            </p>
+            <p>
+                
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="main_menu_refund_note" name="Refund notes" parent="mrp.menu_mrp_configuration" action="action_sh_refund_note_type" sequence="5" />
+</odoo>

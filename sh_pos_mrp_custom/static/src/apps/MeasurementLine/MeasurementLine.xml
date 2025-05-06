@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="sh_pos_mrp_custom.MeasurementLine">
+        <tbody class="sh_measurement_line_table" t-ref="sh-measurement-line-details">
+        </tbody>
+        <tfoot class="border-0">
+            <tr>
+                <td colspan='4' style="text-align: left;border:0;">
+                    <button class="button confirm btn btn-sm btn-primary" t-on-click="add_new_line">add line</button>
+                </td>
+            </tr>
+        </tfoot>
+    </t>
+
+</templates>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_mrp_production_measurements" name="Production Measurements">
+        <h3>
+            <span>
+                Measurements
+            </span>
+        </h3>
+        <table class="table table-sm">
+            <div class="oe_structure"></div>
+            <div>
+                <span>
+                    Note :
+                </span>
+                <span t-field="o.sh_measurement_note"></span>
+            </div>
+            <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>UOM</th>
+                    <th class="text-end">Size</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr t-foreach="o.sh_mrp_production_measurement_line" t-as="measurement_line">
+                    <td>
+                        <span t-field="measurement_line.sh_measurement_type_id"/>
+                    </td>
+                    <td>
+                        <span t-field="measurement_line.sh_uom_id"/>
+                    </td>
+                    <td class="text-end">
+                        <span t-field="measurement_line.size_1"/>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </template>
+    
+    <template id="report_mrporder" inherit_id="mrp.report_mrporder">
+        <div class="row mt32 mb32" position="after">
+            <div class="row mt32 mb32">
+                <div class="col-3" t-if="o.sh_pos_order_id.partner_id">
+                    <strong>POS Customer:</strong><br/>
+                    <span t-field="o.sh_pos_order_id.partner_id"/>
+                </div>
+                <div class="col-3" t-if="o.sh_pos_order_id">
+                    <strong>POS Order:</strong><br/>
+                    <span t-field="o.sh_pos_order_id"/>
+                </div>
+                <div class="col-3" t-if="o in docs">
+                    <strong>Quantity of the order:</strong><br/>
+                    <span t-out="docs.ids.index(o.id) + 1"/>/<span t-out="len(docs)"/>
+                </div>
+            </div>
+        </div>
+        <div t-if="o.move_raw_ids" position="after">
+            <div t-if="o.sh_mrp_production_measurement_line">
+                <t t-call="sh_pos_mrp_custom.report_mrp_production_measurements"/>
+            </div>
+        </div>
+    </template>
+
+    <template id="report_mrp_production_components" inherit_id="mrp.report_mrp_production_components">
+        <div class="oe_structure" position="after">
+            <div class="mb-2">
+                <span>
+                    Note :
+                </span>
+                <span t-field="o.sh_component_note"></span>
+            </div>
+        </div>
+    </template>
+
+</odoo>

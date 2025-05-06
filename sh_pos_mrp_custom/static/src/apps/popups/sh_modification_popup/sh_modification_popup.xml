@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="sh_pos_mrp_custom.ShModificationPopup">
+        <div class="popup popup-import sh_select_bom_popup" style="max-width: 980px !important;">
+
+            <div class="modal-header drag-handle">
+                <h4 class="modal-title">
+                    Modification
+                </h4>
+            </div>
+            <main class="body modal-body">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th class="col-2" scope="col">Component</th>
+                            <th class="col-2" scope="col">Final Component</th>
+                            <th class="col-4" scope="col">Quantity</th>
+                            <th class="col-4" scope="col">Product Unit of Measure</th>
+                            <th class="col-2" scope="col">Delete</th>
+                        </tr>
+                    </thead>
+                    <BomComponents bom_components="props.components" line_qty="props.bum_qty" units="props.units" update_bom="props.update_bom" sh_require_fabric="props.sh_require_fabric" />
+                </table>
+                <div class="note_popup">
+                    <h3 class="d-flex align-items-center mb-0">
+                        <span class="modal-title note_title me-2">Component Note : </span>
+                        <textarea name="sh_component_note" class="form-control sh_component_note" id="sh_component_note" />
+                    </h3>
+                </div>
+                <br />
+                <div>
+                    <div class="note_popup">
+                        <h3 class="d-flex align-items-center mb-0">
+                            <span class="modal-title note_title me-2">Category : </span>
+                             
+                            <input class="form-control sh_modification_categ_id " list="shCategoryOptions" t-model="changes.category_name" t-on-change="onChangeCategory" placeholder="Select a Category..." />
+                            <datalist id="shCategoryOptions">
+                                <t t-foreach="Object.values(pos.sh_measurement_category_by_id)" t-as="category" t-key="category.id">
+                                    <option t-att-value="category.name.replaceAll(' ','_')" t-att-data-category_id="category.id"></option>
+                                </t>
+                            </datalist>
+                        </h3>
+                    </div>
+                </div>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th class="col-2" scope="col">Measurement Type</th>
+                            <th class="col-4" scope="col">Size</th>
+                            <th class="col-2" scope="col">Type UoM</th>
+                            <th class="col-2" scope="col">Delete</th>
+                        </tr>
+                    </thead>
+                     <tbody>
+                        <t t-if="get_measurement_types and get_measurement_types.length" >
+                            <t t-set="type_len" t-value="0"  />
+                            <t t-foreach="get_measurement_types" t-as="type" t-key="type.id" >
+                                <ShMeasurementLineData line="type" table_len="type_len" is_new_line='true' />
+                                <t t-set="type_len" t-value="type_len + 1"   />
+                            </t>
+                        </t>
+                        <t t-else="" >
+                            <t t-set="line_len" t-value="0"  />
+                            <t t-if="get_measurement_lines and get_measurement_lines.length" >
+                                <t t-foreach="get_measurement_lines" t-as="line" t-key="line.id" >
+                                    <ShMeasurementLineData line="line" table_len="line_len" />
+                                    <t t-set="line_len" t-value="line_len + 1"   />
+                                </t>
+                            </t>
+                        </t>
+                     </tbody>
+                </table>
+
+                <div class="note_popup">
+                    <h3 class="d-flex align-items-center mb-0">
+                        <span class="modal-title note_title me-2">Note : </span>
+                        <textarea t-model="changes.sh_measurement_note" name="sh_measurement_note" class="form-control sh_measurement_note" id="sh_measurement_note" />
+                    </h3>
+                </div>
+            </main>
+            <footer class="footer modal-footer">
+                <div class="button cancel btn btn-lg btn-primary" t-on-click="confirm">
+                    Confirm
+                </div>
+                <div class="button cancel btn btn-lg btn-secondary" t-on-click="cancel">
+                    Cancel
+                </div>
+            </footer>
+        </div>
+    </t>
+</templates>
+            

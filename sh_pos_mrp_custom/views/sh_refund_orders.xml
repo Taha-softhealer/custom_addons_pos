@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="sh_order_refund_form" model="ir.ui.view">
+        <field name="name">sh.order.refund.form</field>
+        <field name="model">sh.order.refund</field>
+        <field name="arch" type="xml">
+            <form string="Refund Order" >
+                <sheet>
+                    <group>
+                        <field name="sh_pos_order_id" readonly="1"></field>
+                        <field name="sh_partner_id" readonly="1"></field>
+                        <field name="sh_mrp_order_id" readonly='1'></field>
+                        <field name="sh_order_reason_id" readonly='1'></field>
+                        <field name="sh_order_reason_note" readonly='1'></field>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="sh_order_refund_list" model="ir.ui.view">
+        <field name="name">sh.order.refund.list</field>
+        <field name="model">sh.order.refund</field>
+        <field name="arch" type="xml" >
+            <list string="Refund Orders">
+                <field name="sh_pos_order_id"/>
+                <field name="sh_mrp_order_id"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_sh_order_refund" model="ir.actions.act_window" >
+        <field name="name">Refund Order</field>
+        <field name="res_model">sh.order.refund</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_id" eval="False"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Define a Pre define refund Orders
+            </p>
+            <p>
+                
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="main_menu_sh_order_refund" name="Refund Orders" parent="mrp.menu_mrp_configuration" action="action_sh_order_refund" sequence="5" />
+</odoo>

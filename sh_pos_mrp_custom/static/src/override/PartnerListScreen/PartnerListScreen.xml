@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="PartnerDetailsEdit" t-inherit="point_of_sale.PartnerDetailsEdit" t-inherit-mode="extension">
+        <xpath expr="//div[hasclass('partner-details-header')]" position="after">
+            <div class="partner-detail col">
+                <label class="form-label label" for="state">Parent Partner</label>
+                <select class="detail form-select" t-on-change="parent_change" t-model="changes.parent_id" id="parent" name="parent_id">
+                    <option value="">None</option>
+                    <t t-foreach="Object.values(pos.db.partner_by_id)" t-as="partner" t-key="partner.id">
+                        <option t-att-value="partner.id">
+                            <t t-esc="partner.name" />
+                        </option>
+                    </t>
+                </select>
+            </div>
+        </xpath>
+    </t>
+</templates>

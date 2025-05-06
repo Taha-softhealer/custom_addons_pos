@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="sh_mrp_production_form_inherit" model="ir.ui.view">
+        <field name="name">mrp.production.form.inherit</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+        <field name="arch" type="xml">
+            <header position="inside">
+                <!-- modification -->
+                <button name="action_modification_approve" invisible="state != 'modification'" string="Approve" type="object" class="oe_highlight" groups="mrp.group_mrp_manager" />
+                <button name="action_modification_reject" invisible="state != 'modification'" string="Reject" type="object" class="oe_highlight" groups="mrp.group_mrp_manager" />
+
+                <!-- Refund Approval -->
+                <button name="action_refund_approve" invisible="state != 'refund_approval'" string="Approve Refund" type="object" class="oe_highlight" groups="mrp.group_mrp_manager" />
+                <button name="action_refund_reject" invisible="state != 'refund_approval'" string="Reject Refund" type="object" class="oe_highlight" groups="mrp.group_mrp_manager" />
+            </header>
+            
+            <div name="button_box" position="inside">
+                <field name="sh_mrp_to_pos_internal_picking_count" invisible="True" />
+                <button name="action_mrp_to_pos_internal_pickings" type="object"
+                            class="oe_stat_button" icon="fa-truck"
+                            invisible="sh_mrp_to_pos_internal_picking_count == 0">
+                            <field string="Transfers" name="sh_mrp_to_pos_internal_picking_count" widget="statinfo"/>
+                </button>
+            </div>
+            <xpath expr="//label[@name='bom_label']" position="before">
+                <field name="sh_pos_order_id" readonly='1' />
+                <field name="sh_pos_order_line_id" invisible="True" />
+                <field name="sh_employee_id" readonly='1' />
+                <field name="sh_measurement_id" readonly='1' />
+                <field name="sh_old_production_id" string="Old Manufacturing Order" readonly="True" invisible="not sh_old_production_id"></field>
+            </xpath>
+            <xpath expr="//page[@name='components']/field[@name='move_raw_ids']" position="before">
+                <group>
+                    <group>
+                        <field name="sh_component_note" readonly="True" />
+                    </group>
+                </group>
+            </xpath>
+            
+            <notebook position="inside">
+                <page name="sh_designs" string="Designs">
+                    <field name="sh_designs" ></field>
+                </page>
+                <page name="sh_mrp_production_measurement_line_page" string="Measurement">
+                    <group>
+                        <group>
+                            <field name="sh_measurement_note" readonly="True" />
+                        </group>
+                        <field name="sh_mrp_production_measurement_line" readonly="True">
+                            <list>
+                                <field name="production_id" column_invisible="True" />
+                                <field name="sh_measurement_type_id"/>
+                                <field name="size_1" />
+                                <field name="size_2" />
+                                <field name="size_3" />
+                                <field name="size_4" />
+                                <field name="size_5" />
+                                <field name="size_6" />
+                                <field name="size_7" />
+                                <field name="size_8" />
+                                <field name="size_9" />
+                                <field name="size_10" />
+                                <field name="sh_uom_id" />
+                            </list>
+                        </field>
+                    </group>
+                </page>
+                <page name="sh_modification_request_line_page" string="Modification Request">
+                    <field name="sh_modification_request_line">
+                        <list editable="bottom" decoration-warning="update_state == 'modified'" decoration-success="update_state == 'new'">
+                            <field name="production_id" column_invisible="True" />
+                            <field name="pos_order_id" column_invisible="True" />
+                            <field name="company_id" column_invisible="True"/>
+                            <field name="update_state" column_invisible="True" />
+                            <field name="serial_no"/>
+                            <field name="final_product_id" />
+                            <field name="modified_product_id" />
+                            <field name="product_uom_id" />
+                            <field name="product_qty" />
+                        </list>
+                    </field>
+                </page>
+                <page name="sh_measurement_modification_request_line_page" string="Measurement Modification Request">
+                    <group>
+                        <group>
+                            <field name="sh_measurement_modification_note" readonly="True" />
+                        </group>
+                        <field name="sh_measurement_modification_request_line" readonly="1">
+                            <list decoration-warning="update_state == 'modified'" decoration-success="update_state == 'new'">
+                                <field name="update_state" />
+                                <field name="sh_measurement_type_id"/>
+                                <field name="size_1" />
+                                <field name="size_2" />
+                                <field name="size_3" />
+                                <field name="size_4" />
+                                <field name="size_5" />
+                                <field name="size_6" />
+                                <field name="size_7" />
+                                <field name="size_8" />
+                                <field name="size_9" />
+                                <field name="size_10" />
+                            </list>
+                        </field>
+                    </group>
+                </page>
+                <page name="sh_refund_order_id_page" string="Return Request">
+                    <field name="sh_refund_employee_id" ></field>
+                    <field name="sh_refund_order_id" readonly='1'>
+                        <list>
+                            <field name="sh_order_reason_id" ></field>
+                            <field name="sh_order_reason_note" ></field>
+                        </list>
+                    </field>
+                </page>
+            </notebook>
+        </field>
+    </record>
+
+    <record id="mrp_production_list_view_inherit" model="ir.ui.view">
+        <field name="name">mrp.production.view.list.inherit</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp.mrp_production_tree_view"/>
+        <field name="arch" type="xml">
+            <field name="state" position="before">
+                <field name="is_sh_fitting_required" optional="show" readonly="True"/>
+                <field name="is_sh_dependent_mo" optional="show" readonly="True"/>
+            </field>
+        </field>
+    </record>
+
+    <!-- State wise Manufacturing Orders -->
+    <menuitem id="mrp_production_state_menu" name="State wise Manufacturing Orders"
+        groups="mrp.group_mrp_manager" parent="mrp.menu_mrp_manufacturing"/>
+
+    
+    <!-- Modification -->
+    <record id="mrp_production_modification_action" model="ir.actions.act_window">
+        <field name="name">Manufacturing Orders</field>
+        <field name="res_model">mrp.production</field>
+        <field name="view_mode">list,kanban,form,calendar,pivot,graph,activity</field>
+        <field name="view_id" eval="False"/>
+        <field name="search_view_id" ref="mrp.view_mrp_production_filter"/>
+        <field name="context">{'default_company_id': allowed_company_ids[0]}</field>
+        <field name="domain">[('picking_type_id.active', '=', True),('state','=','modification')]</field>
+        <field name="help" type="html">
+          <p class="o_view_nocontent_smiling_face">
+            No manufacturing order found on Modification state. Let's create one.
+          </p><p>
+            Use Manufacturing Orders (MO) to build finished products while consuming components: i.e. 1 Table = 4 Table Legs + 1 Table Top
+          </p>
+        </field>
+    </record>
+
+    <menuitem id="mrp_production_modification_menu" name="Modification"
+        action="mrp_production_modification_action" parent="mrp_production_state_menu" />
+
+
+    <!-- Fitting -->
+    <record id="mrp_production_fitting_action" model="ir.actions.act_window">
+        <field name="name">Manufacturing Orders</field>
+        <field name="res_model">mrp.production</field>
+        <field name="view_mode">list,kanban,form,calendar,pivot,graph,activity</field>
+        <field name="view_id" eval="False"/>
+        <field name="search_view_id" ref="mrp.view_mrp_production_filter"/>
+        <field name="context">{'default_company_id': allowed_company_ids[0]}</field>
+        <field name="domain">[('picking_type_id.active', '=', True),('state','=','fitting')]</field>
+        <field name="help" type="html">
+          <p class="o_view_nocontent_smiling_face">
+            No manufacturing order found on Fitting state. Let's create one.
+          </p><p>
+            Use Manufacturing Orders (MO) to build finished products while consuming components: i.e. 1 Table = 4 Table Legs + 1 Table Top
+          </p>
+        </field>
+    </record>
+
+    <menuitem id="mrp_production_fitting_menu" name="Fitting"
+        action="mrp_production_fitting_action" parent="mrp_production_state_menu" />
+
+    
+    <!-- Fitting not ok -->
+    <record id="mrp_production_fitting_not_ok_action" model="ir.actions.act_window">
+        <field name="name">Manufacturing Orders</field>
+        <field name="res_model">mrp.production</field>
+        <field name="view_mode">list,kanban,form,calendar,pivot,graph,activity</field>
+        <field name="view_id" eval="False"/>
+        <field name="search_view_id" ref="mrp.view_mrp_production_filter"/>
+        <field name="context">{'default_company_id': allowed_company_ids[0]}</field>
+        <field name="domain">[('picking_type_id.active', '=', True),('state','=','fitting_not_ok')]</field>
+        <field name="help" type="html">
+          <p class="o_view_nocontent_smiling_face">
+            No manufacturing order found on Fitting not ok state. Let's create one.
+          </p><p>
+            Use Manufacturing Orders (MO) to build finished products while consuming components: i.e. 1 Table = 4 Table Legs + 1 Table Top
+          </p>
+        </field>
+    </record>
+
+    <menuitem id="mrp_production_fitting_not_ok_menu" name="Fitting not ok"
+        action="mrp_production_fitting_not_ok_action" parent="mrp_production_state_menu" />
+
+
+    <!-- Refund Approval -->
+    <record id="mrp_production_refund_approval_action" model="ir.actions.act_window">
+        <field name="name">Manufacturing Orders</field>
+        <field name="res_model">mrp.production</field>
+        <field name="view_mode">list,kanban,form,calendar,pivot,graph,activity</field>
+        <field name="view_id" eval="False"/>
+        <field name="search_view_id" ref="mrp.view_mrp_production_filter"/>
+        <field name="context">{'default_company_id': allowed_company_ids[0]}</field>
+        <field name="domain">[('picking_type_id.active', '=', True),('state','=','refund_approval')]</field>
+        <field name="help" type="html">
+          <p class="o_view_nocontent_smiling_face">
+            No manufacturing order found on Refund Approval state. Let's create one.
+          </p><p>
+            Use Manufacturing Orders (MO) to build finished products while consuming components: i.e. 1 Table = 4 Table Legs + 1 Table Top
+          </p>
+        </field>
+    </record>
+
+
+    <record id="mrp_production_components_view_form_normalized" model="ir.ui.view">
+            <field name="name">mrp.production.view.form.normalized</field>
+            <field name="model">mrp.production</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group name="name">
+                                 <field name="move_raw_ids"
+                                widget="stock_move_one2many"
+                                context="{'default_date': date_start, 'default_date_deadline': date_start, 'default_location_id': location_src_id, 'default_location_dest_id': production_location_id, 'default_warehouse_id': warehouse_id, 'default_state': 'draft', 'default_raw_material_production_id': id, 'default_picking_type_id': picking_type_id, 'default_company_id': company_id, 'form_view_ref': 'mrp.view_mrp_stock_move_operations', 'active_mo_id': id}"
+
+                                readonly="state == 'cancel' or (state == 'done' and is_locked)">
+                                <list default_order="is_done, manual_consumption desc, sequence" editable="bottom">
+                                    <control>
+                                        <create string="Add a line"/>
+                                        <button name="action_add_from_catalog_raw" string="Catalog" type="object" class="px-4 btn-link" context="{'order_id': parent.id}"/>
+                                    </control>
+                                    <field name="product_id" force_save="1" context="{'default_is_storable': True}" required="1" readonly="move_lines_count &gt; 0 or state == 'cancel' or (state != 'draft' and not additional)" domain="['&amp;', ('type', '=', 'consu'), ('id', '!=', parent.product_id)]"/>
+                                    <field name="location_id" string="From" readonly="1" force_save="1" groups="stock.group_stock_multi_locations" optional="show"/>
+                                    <!-- test_immediate_validate_uom_2, test_product_produce_different_uom -->
+                                    <field name="product_uom" column_invisible="True"/>
+                                    <field name="propagate_cancel" column_invisible="True"/>
+                                    <field name="price_unit" column_invisible="True"/>
+                                    <field name="company_id" column_invisible="True"/>
+                                    <field name="product_uom_category_id" column_invisible="True"/>
+                                    <field name="name" column_invisible="True"/>
+                                    <field name="allowed_operation_ids" column_invisible="True"/>
+                                    <field name="unit_factor" column_invisible="True"/>
+                                    <field name="date_deadline" column_invisible="True" force_save="1"/>
+                                    <field name="date" column_invisible="True"/>
+                                    <field name="additional" column_invisible="True"/>
+                                    <field name="picking_type_id" column_invisible="True"/>
+                                    <field name="is_storable" column_invisible="True"/>
+                                    <field name="has_tracking" column_invisible="True"/>
+                                    <field name="operation_id" column_invisible="True"/>
+                                    <field name="is_done" column_invisible="True"/>
+                                    <field name="bom_line_id" column_invisible="True"/>
+                                    <field name="sequence" column_invisible="True"/>
+                                    <field name="warehouse_id" column_invisible="True"/>
+                                    <field name="is_locked" column_invisible="True"/>
+                                    <field name="move_lines_count" column_invisible="True"/>
+                                    <field name="location_dest_id" domain="[('id', 'child_of', parent.location_dest_id)]" column_invisible="True"/>
+                                    <field name="state" column_invisible="True" force_save="1"/>
+                                    <field name="should_consume_qty" column_invisible="True"/>
+                                    <field name="product_uom_qty" force_save="1" string="To Consume" column_invisible="not parent.show_produce_all" readonly="parent.state != 'draft' and ((parent.state not in ('confirmed', 'progress', 'to_close') and not parent.is_planned) or (parent.is_locked and state != 'draft'))"/>
+                                    <field name="product_uom_qty" widget="mrp_should_consume" force_save="1" string="To Consume" column_invisible="parent.show_produce_all" readonly="parent.state != 'draft' and ((parent.state not in ('confirmed', 'progress', 'to_close') and not parent.is_planned) or (parent.is_locked and state != 'draft'))"/>
+                                    <field name="product_qty" readonly="1" column_invisible="True"/>
+                                    <field name="forecast_expected_date" column_invisible="True"/>
+                                    <!-- Button are used in state draft to doesn't have the name of the column "Reserved"-->
+                                    <!-- <button type="object" name="action_product_forecast_report" title="Forecast Report" icon="fa-area-chart" column_invisible="parent.state != 'draft'" invisible="forecast_availability &lt; 0"/>
+                                    <button type="object" name="action_product_forecast_report" title="Forecast Report" icon="fa-area-chart text-danger" column_invisible="parent.state != 'draft'" invisible="forecast_availability &gt;= 0"/> -->
+                                    <!-- TODO put forecast back -->
+                                    <!-- <field name="forecast_availability" column_invisible="parent.state in ['done', 'cancel']" string="Forecast" widget="forecast_widget" optional="hide"/> -->
+                                    <field name="quantity" string="Quantity"
+                                        column_invisible="parent.state == 'draft'"
+                                        decoration-info="manual_consumption"
+                                        decoration-bf="manual_consumption"
+                                        readonly="has_tracking != 'none'"
+                                        force_save="1"/>
+                                    <field name="product_uom" readonly="state != 'draft' and id" options="{'no_open': True, 'no_create': True}" groups="uom.group_uom"/>
+                                    <field name="picked" string="Consumed" column_invisible="parent.state == 'draft'" optional="show"/>
+                                    <field name="manual_consumption" column_invisible="True" force_save="1"/>
+                                    <field name="show_details_visible" column_invisible="True"/>
+                                    <field name="lot_ids" widget="many2many_tags"
+                                        optional="hide"
+                                        string="Lot/Serial Numbers"
+                                        help="Displays the consumed Lot/Serial Numbers."
+                                        groups="stock.group_production_lot"
+                                        readonly="1"
+                                        column_invisible="not parent.show_lot_ids or parent.state == 'draft'"
+                                        invisible="not show_details_visible"
+                                        options="{'create': [('parent.use_create_components_lots', '!=', False)]}"
+                                        context="{'default_product_id': product_id}"
+                                        domain="[('product_id','=',product_id)]"/>
+                                    <field name="group_id" column_invisible="True"/>
+                                </list>
+                            </field>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+    </record>
+
+
+    <record id="mrp_production_mesuremnt_view_form_normalized" model="ir.ui.view">
+            <field name="name">mrp.production.view.form.normalized</field>
+            <field name="model">mrp.production</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                    <field name="sh_compute_line_data" invisible="True"/>
+                        <group name="name">
+                            <field name="sh_measurement_modification_request_line">
+                                <list editable="bottom">
+                                    <field name="update_state" column_invisible="True" />
+                                    <field name="production_id" column_invisible="True" />
+                                    <field name="sh_measurement_type_id"/>
+                                    <field name="size_1" />
+                                    <field name="size_2" />
+                                    <field name="size_3" />
+                                    <field name="size_4" />
+                                    <field name="size_5" />
+                                    <field name="size_6" />
+                                    <field name="size_7" />
+                                    <field name="size_8" />
+                                    <field name="size_9" />
+                                    <field name="size_10" />
+                                    <field name="sh_uom_id" />
+                                </list>
+                            </field>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+    </record>
+
+    <record id="mrp_production_action_edit_pos" model="ir.actions.act_window">
+            <field name="name">Components Details</field>
+            <field name="res_model">mrp.production</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="context" eval="{'dialog_size': 'large'}"/>
+            <field name="view_id" ref="sh_pos_mrp_custom.mrp_production_components_view_form_normalized"/>
+    </record>
+    <record id="mrp_production_measurement_action_edit_pos" model="ir.actions.act_window">
+            <field name="name">Measurement Details</field>
+            <field name="res_model">mrp.production</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="view_id" ref="sh_pos_mrp_custom.mrp_production_mesuremnt_view_form_normalized"/>
+    </record>
+
+    <menuitem id="mrp_production_refund_approval_menu" name="Refund Approval"
+        action="mrp_production_refund_approval_action" parent="mrp_production_state_menu" />
+
+</odoo>

@@ -1,0 +1,130 @@
+.pos .modal-dialog .popup{
+    &.sh_create_measurement_popup{
+        max-width: 980px !important;
+        .oe_title{
+            text-align: left;
+            margin-bottom: 10px;
+            .modal-title{
+                &.sh_name{
+                    font-size: 25px;
+                    width: 12%;
+                    @include media-breakpoint-down(md) {
+                        font-size: 19px;
+                        width: 25%;
+                    }
+                }
+                
+            }
+        }
+        #name_0{
+            width: 50% !important;
+        }
+        .name_popup{
+            padding: 16px;
+            border-bottom: 1px solid #d8dadd; 
+            flex-wrap: wrap;
+            .sh_measurement_category_img_box{
+                .sh_measurement_category_img{
+                    height: auto;
+                    object-fit: cover;
+                    max-width: 140px;
+                    max-height: 140px;
+                    vertical-align: top;
+                }
+            }
+            .sh_fitting_box{
+                input[type=checkbox]{
+                    z-index: 9;
+                    width: 35px;
+                    padding: 0 9px;
+                    position: relative;
+                    opacity: 0;
+                    top: 12px;
+                }                
+                label {
+                    cursor: pointer;
+                    text-indent: -9999px;
+                    width: 35px;
+                    height: 20px;
+                    background: grey;
+                    display: block;
+                    border-radius: 100px;
+                    position: relative;
+                    top: -8px;
+                }                
+                label:after {
+                    content: '';
+                    position: absolute;
+                    top: 3px;
+                    left: 3px;
+                    width: 15px;
+                    height: 14px;
+                    background: #fff;
+                    border-radius: 90px;
+                    transition: 0.3s;
+                   
+                }                
+                input:checked + label {
+                    background: #bada55;
+                }                
+                input:checked + label:after {
+                    left: calc(100% - 5px);
+                    transform: translateX(-100%);
+                }
+            }   
+        }
+        .note_popup{
+            padding:16px;
+            border-top: 1px solid #d8dadd; 
+            .note_title{
+                width: 15%;
+            }
+        }
+        .sh_measurement_note{
+            resize: none;
+        }
+        .sh_discount_main_table{
+            max-height: 300px;
+            overflow: auto;
+            padding: 0 !important;
+            .table {
+                @include media-breakpoint-down(md) {
+                    white-space: nowrap;
+                }
+            }
+            .table {
+                thead{
+                    position: sticky;
+                    top: 0;
+                    tr{
+                        th{
+                            background-color: #ebebeb;
+                        }
+                    }
+                }
+                tfoot{
+                    position: sticky;
+                    bottom: 0;
+                    background-color: #fff;
+                }
+            }
+            .sh_measurement_line_table{
+                .sh-measurement-line-details{
+                    border-bottom: 1px solid #ccc;
+                    .size {
+                        border-bottom: 0px solid #ccc;
+                        &:empty{
+                            border: none !important;
+                        }
+                        .sh_measurement_size {
+                            width: 48%;
+                            @include media-breakpoint-down(md) {
+                                width: 100%;
+                            }
+                        }
+                    }
+                }
+            }
+        }        
+    }
+}

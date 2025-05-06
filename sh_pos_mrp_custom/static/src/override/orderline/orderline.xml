@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="sh_pos_mrp_custom.Orderline" t-inherit="point_of_sale.Orderline" t-inherit-mode="extension">
+        <xpath expr="//ul[hasclass('info-list')]" position="inside">
+            <div class="d-flex" >
+                <li class="sh_fitting_box d-flex align-items-center" t-if="line.fitting_in_cart" >
+                    <span class="modal-title me-2"> Fitting : </span>
+                    <div class="">
+                        <input type="checkbox" name="sh_is_fitting" t-on-change="(ev) => this.shFittingToggle(ev, line)"  class="sh_is_fitting" id="sh_fitting" t-att-checked="line.sh_is_fitting || false" />
+                        <label for="sh_fitting" class=""></label>
+                    </div>
+                </li>
+            </div>
+            <li class="sh_fitting_box d-flex align-items-center" t-if="line.measurement_name" >
+                <span class="modal-title me-2"> Measurement : </span>
+                <div>
+                    <t t-if="line.measurement_name" >
+                        <t t-esc="line.measurement_name" ></t>
+                    </t>
+                    <t t-else="" >
+                        -
+                    </t>    
+                </div>
+            </li>
+            <!-- <li class="sh_fitting_box d-flex align-items-center" t-if="line.sh_parent_product" >
+                <span class="modal-title me-2"> Parent Product : </span>
+                <div>
+                    <t t-if="line.sh_parent_product" >
+                        <t t-esc="line.sh_parent_product" ></t>
+                    </t>
+                    <t t-else="" >
+                        -
+                    </t>    
+                </div>
+            </li> -->
+        </xpath>
+    </t>
+</templates>

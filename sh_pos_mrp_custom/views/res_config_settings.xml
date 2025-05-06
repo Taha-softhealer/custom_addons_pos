@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="sh_pos_mrp_custom_res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">sh.pos.mrp.custom.res.config.settings.view.form</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="point_of_sale.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <block id="pos_interface_section" position="after">
+                <block title="BOM">
+                    <setting >
+                        <field name="sh_enable_bom" />
+                    </setting>
+                    <setting>
+                        <field name="sh_default_invoice" />
+                    </setting>
+                    <setting >
+                        <field name="sh_enable_piking_state" />
+                    </setting>
+                    <setting string="Transient Location" groups="stock.group_stock_multi_locations">
+                        <field name="sh_transient_location_id"/>
+                    </setting>
+                </block>
+            </block>
+        </field>
+    </record>
+</odoo>

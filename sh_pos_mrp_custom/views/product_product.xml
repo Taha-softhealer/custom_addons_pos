@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="sh_mrp_product_product_form_inherit" model="ir.ui.view">
+        <field name="name">sh.mrp.product.product.expense.form</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view" />
+        <field name="arch" type="xml">
+            <div name="options" position="inside">
+                <span class="d-inline-block">
+                    <field name="sh_is_raw_materil"/>
+                    <label for="sh_is_raw_materil"/>
+                </span>
+                <span class="d-inline-block">
+                    <field name="sh_is_fabric"/>
+                    <label for="sh_is_fabric"/>
+                </span>
+            </div>
+            <field name="taxes_id" position="before">
+                <field name="sh_fabric_qty" invisible="not sh_is_fabric" required="not sh_is_fabric"></field>
+            </field>
+        </field>
+    </record>
+</odoo>
