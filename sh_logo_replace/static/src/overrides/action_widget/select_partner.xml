@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<templates id="template" xml:space="preserve">
-    <t t-name="sh_logo_replace.SelectPartnerButton" t-inherit="point_of_sale.SelectPartnerButton" t-inherit-mode="extension">
-        <xpath expr="//button" position="attributes">
-            <attribute name="t-attf-class">{{this.pos.customer_selection ? 'hide_btn' : ""}}</attribute>
-        </xpath>
-</t>
-</templates>
