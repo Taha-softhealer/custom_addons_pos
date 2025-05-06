@@ -46,8 +46,11 @@ export class BomComponents extends Component {
 
     }
     remove_measurement_line(event,com_id) {
+        debugger
         this.state_lines.components = this.state_lines.components.filter(obj => obj.id !== com_id);
-        this.props.changes.sh_component_ids.shift(com_id)
+        console.log("-----com------>",com_id);
+        
+        this.props.changes.sh_component_ids.pop(com_id)
         
     }
     onchangeProduct(event, com_id) {

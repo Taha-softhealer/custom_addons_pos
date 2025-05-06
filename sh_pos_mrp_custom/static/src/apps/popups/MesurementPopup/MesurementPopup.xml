@@ -102,8 +102,6 @@
             </footer>
         </div> -->
         <Dialog title="'Product Id'" footer="false" contentClass="'pb-5'" bodyClass="'d-flex flex-column gap-2 border-bottom'">
-        <h1>Dabhi Harpal</h1>
-
         </Dialog>
     </t>
 </templates>

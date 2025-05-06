@@ -34,6 +34,7 @@ patch(ControlButtons.prototype, {
                 title: _t("Unvalid"),
                 body: _t("Please, Select Orderline",),
             });
+            return false
         }
         const currentPartner = currentOrderline.get_line_partner();
         if (currentPartner && currentOrder.getHasRefundLines()) {

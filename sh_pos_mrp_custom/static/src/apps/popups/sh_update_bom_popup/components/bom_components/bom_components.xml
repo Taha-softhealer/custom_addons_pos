@@ -14,7 +14,7 @@
                             </select>
                         </td>
 
-                        <td class="name" t-att-colspan="changes.sh_product_id and changes.sh_product_id[0] ? '1': '2'">
+                        <td class="name">
                             <t t-if="props.isfabric">
                                 <input t-att-class="'form-control sh_bom_line_selection sh_is_fabric sh_bom_line_selection'+table_len" t-att-list="'datalistOptions'+table_len" t-model="changes.sh_product_id[1]" t-on-change="onChangeProduct" placeholder="Select a Product..." />
                                 <datalist t-att-id="'datalistOptions'+table_len">
@@ -46,7 +46,7 @@
                     </t>
 
                     <t t-else="">
-                        <td class="name" colspan="2">
+                        <td class="name">
 
                             <input t-att-class="'form-control sh_bom_line_selection sh_bom_line_selection'+table_len" t-att-list="'datalistOptions'+table_len" t-on-change="(ev) => this.add_onchangeProduct(ev, com.id)" placeholder="Select a Product..." t-model="state_lines.sh_product_name[com.id]"/>
                             <datalist t-att-id="'datalistOptions'+table_len">

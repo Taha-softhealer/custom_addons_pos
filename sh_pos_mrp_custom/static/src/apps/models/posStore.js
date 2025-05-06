@@ -91,10 +91,9 @@ patch(PosStore.prototype, {
                         var sh_product_id = bompopups.payload.sh_product_id[com_id]
                         var quantity = bompopups.payload.quantity[com_id]
                         var sh_product_uom = bompopups.payload.sh_product_uom[com_id]
-
                         sh_product_id = this.models["product.product"].get(sh_product_id);
-                        sh_product_uom = this.models["uom.uom"].get(sh_product_uom)
-                        var product_uom_category_id = this.models["uom.category"].filter((x) => x.id == sh_product_id.id)
+                        sh_product_uom = this.models["uom.uom"].get(sh_product_uom)                        
+                        var product_uom_category_id = this.models["uom.category"].filter((x) => x.id == sh_product_id.uom_id.id)
                         result.sh_component_note = bompopups.sh_component_note;
                         // const price = sh_product_id.get_price(
                         //     this.get_order().pricelist_id,

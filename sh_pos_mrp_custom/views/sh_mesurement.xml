@@ -27,7 +27,7 @@
                                 <group>
                                     <field name="sh_measurement_line_ids">
                                         <list editable="bottom" delete="0">
-                                            <field name="sh_measurement_type_id" readonly="sh_measurement_type_id != False"></field>
+                                            <field name="sh_measurement_type_id"></field>
                                             <field name="sh_enter_size_length" column_invisible="1"></field>
                                             <field name="size_1" invisible="sh_enter_size_length &lt; 1" />
                                             <field name="sh_uom_id_reated" column_invisible='True' ></field>

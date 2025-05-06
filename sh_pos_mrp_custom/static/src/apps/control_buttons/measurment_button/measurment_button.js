@@ -106,6 +106,13 @@ patch(ControlButtons.prototype, {
                         });
                 }
             }
+        }else{
+            this.notification.add(
+                "Please make a order and select customer for orderline",
+            {
+                type: "warning",
+                title: "Couldn't open measurment"
+            })
         }
     },
     async open_measurment_dailog(measurment) {
@@ -206,7 +213,6 @@ patch(ControlButtons.prototype, {
             }
         }
     },
-
 }
 
 
