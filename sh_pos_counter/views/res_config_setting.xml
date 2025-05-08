@@ -11,14 +11,14 @@
                     <setting>
                         <field name="pos_enable_total_item" />
                     </setting>
-                    <setting>
+                    <setting invisible="not pos_enable_total_item">
                         <field name="pos_enable_total_item_receipt" />
                     </setting>
                     <setting>
                         <field name="pos_enable_total_qty" />
                     </setting>
-                    <setting>
-                        <field name="pos_enable_total_qty_receipt" />
+                    <setting invisible="not pos_enable_total_qty">
+                        <field name="pos_enable_total_qty_receipt" invisible="not pos_enable_total_qty" />
                     </setting>
                 </block>
             </xpath>

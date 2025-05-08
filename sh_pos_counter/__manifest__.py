@@ -13,7 +13,7 @@
     "application": True,
     "data": ["views/res_config_setting.xml"],
     "assets": {
-        "point_of_sale._assets_pos": [],
+        "point_of_sale._assets_pos": ["sh_pos_counter/static/src/overrides/order_widget/order_widget.xml"],
     },
     "auto_install": False,
     "installable": True,
