@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="sh_pos_counter_res_config_inherit" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherited</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="point_of_sale.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//block[@id='pos_accounting_section']" position="after">
+                <block title="Enable POS Counter">
+                    <setting>
+                        <field name="pos_enable_total_item" />
+                    </setting>
+                    <setting>
+                        <field name="pos_enable_total_item_receipt" />
+                    </setting>
+                    <setting>
+                        <field name="pos_enable_total_qty" />
+                    </setting>
+                    <setting>
+                        <field name="pos_enable_total_qty_receipt" />
+                    </setting>
+                </block>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
