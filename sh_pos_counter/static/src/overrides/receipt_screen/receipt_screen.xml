@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="sh_pos_counter.OrderReceipt" t-inherit="point_of_sale.OrderReceipt" t-inherit-mode="extension">
+        <xpath expr="//div[hasclass('pos-receipt-taxes')]" position="before">
+                <span t-if="props.data.total_item"> Total Item:<t t-esc="props.data.total_item"/></span>
+                <span t-if="props.data.total_qty"> | Total Qty:<t t-esc="props.data.total_qty"/></span>
+        </xpath>
+</t>
+</templates>

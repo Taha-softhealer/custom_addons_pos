@@ -35,17 +35,10 @@ patch(PosStore.prototype, {
 
     
     getReceiptHeaderData(order){
-        console.log("==========>",this.image_src);
         
         const result=super.getReceiptHeaderData(order)
         result["receipt_image"]= this.config.enable_pos_receipt_logo ? this.image_src : false
         return result        
     },
-
-
-    // getCustomerSelection(){
-    //     console.log("=============>",this.customer_selection);
-        
-    // }
 
 })

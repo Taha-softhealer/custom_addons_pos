@@ -9,8 +9,6 @@ import { custom_screen } from "@sh_pos_training/app/custom_screen/custom_screen"
 patch(ControlButtons.prototype,{
     async sh_open_custom_popup(){
         // alert("123456")
-        console.log("custom_popup",custom_popup);
-        console.log("this", this.dialog);
         let products = [{"id" : 1,"name" : "product1"},{"id" : 2,"name" : "product2"}]
         this.dialog.add(custom_popup, {
             title: ("Printing is not supported on some browsers"),

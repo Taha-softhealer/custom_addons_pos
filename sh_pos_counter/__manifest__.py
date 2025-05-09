@@ -13,7 +13,13 @@
     "application": True,
     "data": ["views/res_config_setting.xml"],
     "assets": {
-        "point_of_sale._assets_pos": ["sh_pos_counter/static/src/overrides/order_widget/order_widget.xml"],
+        "point_of_sale._assets_pos": [
+            "sh_pos_counter/static/src/overrides/order_widget/order_widget.xml",
+            "sh_pos_counter/static/src/overrides/order_widget/order_widget.js",
+            "sh_pos_counter/static/src/overrides/order_widget/order_summary.xml",
+            "sh_pos_counter/static/src/overrides/receipt_screen/receipt_screen.js",
+            "sh_pos_counter/static/src/overrides/receipt_screen/receipt_screen.xml",
+        ],
     },
     "auto_install": False,
     "installable": True,

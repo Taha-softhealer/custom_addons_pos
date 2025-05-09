@@ -1,18 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates id="template" xml:space="preserve">
-    <t t-name="sh_pos_training.OrderWidget" t-inherit="point_of_sale.OrderWidget" t-inherit-mode="extension">
+    <t t-name="sh_pos_counter.OrderWidget" t-inherit="point_of_sale.OrderWidget" t-inherit-mode="extension">
         <xpath expr="//div[hasclass('order-summary')]" position="inside">
             <div class="d-flex justify-content-between w-100 fs-4 text-muted">
-                Total items:
-                    <t t-esc="props.lines?.length"/> |
-                Total Qty:
-                    <t t-esc="console.log(props.lines)"/>
-                    <t t-set="total_qty" t-value="0">
-                        <t t-foreach="props.lines" t-as="sh_line" t-key="sh_line.id">
-                            <t t-set="total_qty" t-value="total_qty+sh_line.qty"/>
-                            <span t-esc="console.log(total_qty)"></span>
+                <t t-if="props.sh_enable_total_item">
+                    Total items:
+                    <t t-esc="props.lines?.length"/>
+                </t>
+                <t t-if="props.sh_enable_total_qty">
+                    |
+                    Total Qty:
+                        <t t-set="total_qty" t-value="0"/>
+                        <t t-if="props.lines">
+                            <t t-foreach="props.lines" t-as="sh_line" t-key="sh_line.uuid">
+                                <t t-if="sh_line and sh_line.qty">
+                                    <t t-set="total_qty" t-value="total_qty + sh_line.qty"/>
+                                </t>
+                                <!-- <t t-esc=""/> -->
+                            </t>
                         </t>
-                    </t>
+                    <t t-esc="total_qty"/>
+                </t>
             </div>
         </xpath>
 </t>

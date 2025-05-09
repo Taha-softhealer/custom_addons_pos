@@ -20,7 +20,6 @@
     </xpath>
     <xpath expr="//img" position="after">
       <img t-if="props.data.receipt_image" t-att-src="props.data.receipt_image" alt="Logo" class="pos-receipt-logo"/>
-      <t t-esc="console.log(props.data)"/>
     </xpath>
   </t>
 </templates>

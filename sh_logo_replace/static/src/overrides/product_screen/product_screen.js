@@ -7,9 +7,7 @@ patch(ProductScreen.prototype,{
         let record=super.getNumpadButtons()
         if(this.pos.numpad){
             record.forEach(button => {
-                button["disabled"]=true
-                console.log(button);
-                
+                button["disabled"]=true                
             });
         }
         if(this.pos.qty){
