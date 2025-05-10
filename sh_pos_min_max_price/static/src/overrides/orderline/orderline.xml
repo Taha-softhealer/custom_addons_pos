@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates id="template" xml:space="preserve">
     <t t-name="sh_pos_min_max_counter.Orderline" t-inherit="point_of_sale.Orderline" t-inherit-mode="extension">
-        <xpath expr="//li[hasclass('orderline')]" position="inside">
-            <t t-esc="console.log(line)"/>
-        </xpath>
+        <!-- <xpath expr="//li[hasclass('orderline')]" position="inside">
+            <t t-if="props.group_pos_product_min_max_price">
+                
+            </t>
+        </xpath> -->
 </t>
 </templates>

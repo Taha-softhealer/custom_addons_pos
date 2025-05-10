@@ -4,5 +4,9 @@
     <record id="group_product_min_max_price" model="res.groups">
         <field name="name">Set product Min Max price in Product</field>
     </record>
+
+    <record id="group_allow_confirm_pos_product_sale_price" model="res.groups">
+        <field name="name">Allow confirm pos product sale price</field>
+    </record>
     
 </odoo>
