@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="sh_pos_product_code.Orderline" t-inherit="point_of_sale.Orderline" t-inherit-mode="extension">
+        <xpath expr="//span[hasclass('text-wrap')]" position="before">
+            <span t-if="line.sh_enable_product_internal_ref_cart" class="pt-1" t-esc="line.default_code"></span>
+            <t t-esc="console.log('dfgsuf',props)"/>
+        </xpath>
+</t>
+</templates>

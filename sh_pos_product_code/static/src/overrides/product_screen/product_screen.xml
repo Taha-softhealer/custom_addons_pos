@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="sh_pos_product_code.ProductScreen" t-inherit="point_of_sale.ProductScreen" t-inherit-mode="extension">
+        <xpath expr="//ProductCard" position="attributes">
+            <attribute name="sh_enable_product_internal_ref">this.pos.config.sh_enable_product_internal_ref</attribute>
+            <t t-esc="console.log('asdf',this.pos.config.sh_enable_product_internal_ref)"/>
+        </xpath>
+</t>
+</templates>
