@@ -14,9 +14,7 @@
     "data": ["security/sh_pos_min_max_price_security.xml","views/product.xml"],
     'assets': {
         'point_of_sale._assets_pos': [
-            "sh_pos_min_max_price/static/src/overrides/orderline/orderline.xml",
             "sh_pos_min_max_price/static/src/overrides/orderline/orderline.js",
-            "sh_pos_min_max_price/static/src/overrides/orderline/order_summery.xml"
         ],
     },
     "auto_install": False,
