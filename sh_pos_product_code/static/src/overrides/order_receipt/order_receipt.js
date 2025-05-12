@@ -6,16 +6,12 @@ import { omit } from "@web/core/utils/objects";
 patch(PosOrder.prototype, {
     export_for_printing(baseUrl, headerData) {
         const result = super.export_for_printing(...arguments);
-        // let lines=result.orderlines
-        // console.log(lines);
-        console.log("===before===>",result);
         
-        if (this.config.sh_enable_product_internal_ref_receipt) {
-            result.orderlines.map((line)=>omit(line,"default_code"))
+        if (!this.config.sh_enable_product_internal_ref_receipt) { 
+            result["orderlines"]= this.getSortedOrderlines().map((l) =>
+                omit(l.getDisplayData(), "internalNote","sh_enable_product_internal_ref_cart"),
+            )
         }
-        console.log("===after===>",result);
-        
-
         return result;
     },
 });
