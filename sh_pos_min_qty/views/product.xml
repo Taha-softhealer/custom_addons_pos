@@ -8,7 +8,6 @@
         <field name="arch" type="xml">
             <xpath expr="//div[@name='list_price_uom']" position="after">
                 <field name="sh_min_qty"></field>
-                <field name="sh_res_user_ids"  widget="many2many_tags"/>
             </xpath>
         </field>
     </record>
