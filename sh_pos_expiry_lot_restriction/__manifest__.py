@@ -11,9 +11,9 @@
     "version": "0.0.1",
     "depends": ["point_of_sale"],
     "application": True,
-    "data": [],
+    "data": ["views/res_config_setting.xml"],
     'assets': {
-        'point_of_sale._assets_pos': [],
+        'point_of_sale._assets_pos': ["sh_pos_expiry_lot_restriction/static/src/overrides/pos_store/pos_store.js"],
     },
     "auto_install": False,
     "installable": True,
