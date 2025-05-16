@@ -6,13 +6,15 @@
         <field name="model">res.config.settings</field>
         <field name="inherit_id" ref="point_of_sale.res_config_settings_view_form" />
         <field name="arch" type="xml">
-            <xpath expr="//block[@id='product_and_category_block']" position="inside">
-                <setting help="Raise Warning for product about to Expire">
-                    <field name="pos_lot_expiry_warning" />
-                </setting>
-                <setting help="Restrict Expire product to add in cart">
-                    <field name="pos_restrict_lot_expiry" />
-                </setting>
+            <xpath expr="//block[@id='product_and_category_block']" position="before">
+                <block title="POS Lot Expiration Restriction" id="pos_lot_expiration">
+                    <setting help="Raise Warning for product about to Expire">
+                        <field name="pos_lot_expiry_warning" />
+                    </setting>
+                    <setting help="Restrict Expire product to add in cart">
+                        <field name="pos_restrict_lot_expiry" />
+                    </setting>
+                </block>
             </xpath>
         </field>
     </record>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="sh_happy_hours_form" model="ir.ui.view">
+        <field name="name">sh.happy.hours.form</field>
+        <field name="model">sh.happy.hours</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <sheet>
+                    <field name="starting_from" widget="float_time"></field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="sh_happy_hours_action" model="ir.actions.act_window">
+        <field name="name">sh.happy.hours.action</field>
+        <field name="res_model">sh.happy.hours</field>
+        <field name="view_mode">form</field>
+    </record>
+
+    <menuitem
+        id="sh_happy_hours_menu"
+        name="Happy Hours Discount"
+        action="sh_happy_hours_action"
+        parent="point_of_sale.menu_point_config_product"/>
+</odoo>

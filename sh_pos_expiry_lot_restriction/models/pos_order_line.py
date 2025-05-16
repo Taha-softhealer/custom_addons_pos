@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+# Part of Softhealer Technologies. See LICENSE file for full copyright and licensing details.
 from odoo import api, fields, models
 from odoo.tools import float_compare
 
@@ -27,15 +29,9 @@ class PosOrderLine(models.Model):
                     ("company_id", "=", False),
                     ("company_id", "=", company_id),
                     ("product_id", "=", product_id),
-                    ("location_id", "in", src_loc.child_internal_location_ids.ids),
                 ]
             )
         )
-        available_lots = src_loc_quants.filtered(
-            lambda q: float_compare(
-                q.quantity, 0, precision_rounding=q.product_id.uom_id.rounding
-            )
-            > 0
-        ).mapped("lot_id")
-
+        available_lots = src_loc_quants.mapped("lot_id")
+        print('\n\n\n-----available_lots------->',available_lots)
         return available_lots.read(["id", "name", "product_qty", "expiration_date"])

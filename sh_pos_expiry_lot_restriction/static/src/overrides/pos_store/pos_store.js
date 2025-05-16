@@ -5,7 +5,7 @@ import { ask } from "@point_of_sale/app/store/make_awaitable_dialog";
 patch(PosStore.prototype, {
     async editLots(product, packLotLinesToEdit) {
         let result = await super.editLots(product, packLotLinesToEdit);
-        if (this.config.sh_lot_expiry_warning || this.config.sh_restrict_lot_expiry) {
+        if (this.config.sh_lot_expiry_warning || this.config.sh_restrict_lot_expiry && (product.alert_time || product.use_expiration_date) ) {
             let existingLots = [];
             try {
                 existingLots = await this.data.call(
@@ -22,12 +22,27 @@ patch(PosStore.prototype, {
                 alert("Can't load lots");
                 console.log("Collecting sh existing records fail", ex);
             }
+            console.log(existingLots.length);
+            
             let Currentdate = new Date();
-            let daysToAdd = product.alert_time || 0;
+            let daysToAdd = product.use_expiration_date ? product.alert_time : 0;
             let lotName = result.newPackLotLines[0]?.lot_name;
             let addedDate = new Date();
             let selectedLot = existingLots?.filter((lot) => lot.name == lotName);
-            let expiry_value = selectedLot[0].expiration_date;
+            let expiry_value = false
+            if (selectedLot.length>0 && selectedLot[0].expiration_date) {
+                expiry_value = selectedLot[0].expiration_date;
+            }
+            else{
+                const _confirmed = await ask(this.dialog, {
+                    title: "Expiration Alert",
+                    body: "The Lot/Serial number will expire on " + Currentdate?.toLocaleDateString(),
+                    confirmLabel: "Okay",
+                });
+                if (!_confirmed) {
+                    return
+                }
+            }
             let expiry_date = expiry_value
                 ? new Date(selectedLot[0].expiration_date)
                 : "";

@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+# Part of Softhealer Technologies. See LICENSE file for full copyright and licensing details.
 from odoo import api, fields, models
 
 class ProductProduct(models.Model):
@@ -5,6 +7,7 @@ class ProductProduct(models.Model):
 
     def _load_pos_data_fields(self, config_id):
         result=super()._load_pos_data_fields(config_id)
-        result+=["use_expiration_date","alert_time"]
+        if hasattr(self,"alert_time") and hasattr(self,"use_expiration_date"):
+            result+=["use_expiration_date","alert_time"]
         return result
 
