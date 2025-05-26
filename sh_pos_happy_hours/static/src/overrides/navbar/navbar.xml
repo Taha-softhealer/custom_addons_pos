@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+  <t t-name="sh_logo_replace.Navbar" t-inherit="point_of_sale.Navbar" t-inherit-mode="extension">
+    <xpath expr="//div[hasclass('pos-centerheader')]" position="before">
+      <div class="w-auto bg-danger h-100">
+        <p class="fs-2 text-nowrap w-auto">OFFER ENDS IN</p>
+        <p class="fs-3"></p>
+      </div>
+    </xpath>
+  </t>
+</templates>

@@ -12,9 +12,9 @@
     "version": "0.0.1",
     "depends": ["point_of_sale"],
     "application": True,
-    "data": ["views/sh_happy_hours.xml","security/ir.model.access.csv"],
+    "data": ["views/sh_happy_hours.xml","views/res_config_setting.xml","views/sh_available_pack_pricelist_lines.xml","security/ir.model.access.csv"],
     'assets': {
-        'point_of_sale._assets_pos': [],
+        'point_of_sale._assets_pos': ["sh_pos_happy_hours/static/src/overrides/navbar/navbar.xml","sh_pos_happy_hours/static/src/overrides/pos_store/pos_store.js","sh_pos_happy_hours/static/src/overrides/pos_store/order_summary.js"],
     },
     "auto_install": False,
     "installable": True,
