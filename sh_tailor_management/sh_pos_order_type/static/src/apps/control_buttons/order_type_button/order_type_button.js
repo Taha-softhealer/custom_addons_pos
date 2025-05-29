@@ -38,7 +38,7 @@ patch(ControlButtons.prototype, {
       list: all_order_types,
     });
 
-    if (order_type.is_home_delivery && !order.get_partner()){
+    if (order_type && order_type.is_home_delivery && !order.get_partner()){
       
       const partner = await makeAwaitable(this.dialog, PartnerList);
       if (partner){
