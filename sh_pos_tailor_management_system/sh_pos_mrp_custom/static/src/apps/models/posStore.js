@@ -137,7 +137,7 @@ patch(PosStore.prototype, {
     async pay() {
 
         if (this.config.sh_default_invoice) {
-            this.to_invoice = this.config.sh_default_invoice
+            this.get_order().set_to_invoice(true);
         }
 
         var order_without_measurement = this.get_order().get_orderlines().filter((x) => (x.product_id?.bom_ids?.length && x.sh_measurement_line_ids.length == 0) || (x.product_id?.bom_ids?.length && x.sh_component_ids.length == 0))
