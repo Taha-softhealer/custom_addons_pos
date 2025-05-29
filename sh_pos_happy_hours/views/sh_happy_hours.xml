@@ -23,19 +23,25 @@
                     <group string="Offer Time">
                         <field name="sh_everyday"></field>
                         <div>
+                            <div invisible="sh_everyday">
+                                <group>
+                                    <field name="sh_starting_duration" required="not sh_everyday"></field>
+                                    <field name="sh_ending_duration" required="not sh_everyday"></field>
+                                </group>
+                            </div>
                             <div class="d-flex w-50">
                                 <group>
                                     <field name="sh_starting_time" widget="float_time"
-                                        invisible="not sh_everyday"></field>
+                                        invisible="not sh_everyday" required="sh_everyday"></field>
                                 </group>
-                                <field name="sh_starting_type"></field>
+                                <field name="sh_starting_type" invisible="not sh_everyday" required="sh_everyday"></field>
                             </div>
                             <div class="d-flex w-50">
                                 <group>
                                     <field name="sh_ending_time" widget="float_time"
-                                        invisible="not sh_everyday"></field>
+                                        invisible="not sh_everyday" required="sh_everyday"></field>
                                 </group>
-                                <field name="sh_ending_type"></field>
+                                <field name="sh_ending_type" invisible="not sh_everyday" required="sh_everyday"></field>
                             </div>
                         </div>
                     </group>
@@ -48,7 +54,7 @@
                         <group>
                             <field name="sh_discount"></field>
                             <field name="sh_set_pricelist"></field>
-                            <field name="sh_offer_pricelist_id"></field>
+                            <field name="sh_offer_pricelist_id" invisible="not sh_set_pricelist"></field>
                         </group>
                     </group>
                     <group string="Set Packlist">

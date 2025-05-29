@@ -13,10 +13,11 @@ class ShAvailablePackPricelistLines(models.Model):
         string="Product",
         required=True
     )
-    sh_quantity = fields.Integer("Quantity")
+    sh_quantity = fields.Integer("Quantity",required=True,default="1")
     sh_pack_product_id = fields.Many2one(
         "product.product",
         string="Pack Product",
+        required=True
     )
 
     sh_happy_hour_id = fields.Many2one(
@@ -54,7 +55,7 @@ class ShGetOneProductFree(models.Model):
         string="Product",
         required=True
     )
-    sh_quantity = fields.Integer("Quantity")
+    sh_quantity = fields.Integer("Quantity",required=True,default="1")
 
     @api.model
     def _load_pos_data_domain(self, data):

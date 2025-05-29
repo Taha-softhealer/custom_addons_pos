@@ -14,6 +14,8 @@ class ShHappyHours(models.Model):
     sh_starting_type = fields.Selection([("am", "AM"), ("pm", "PM")])
     sh_ending_time = fields.Float("Ending Time")
     sh_ending_type = fields.Selection([("am", "AM"), ("pm", "PM")])
+    sh_starting_duration = fields.Datetime("Starting Time")
+    sh_ending_duration = fields.Datetime("Ending Time")
     sh_discount_on_product = fields.Boolean("Set Discount On Products")
     sh_product_ids = fields.Many2many("product.product", string="Products")
     sh_discount = fields.Float(string="Discount %")
