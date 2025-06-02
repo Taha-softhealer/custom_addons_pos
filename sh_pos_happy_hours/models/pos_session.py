@@ -22,9 +22,10 @@ class PosOrderline(models.Model):
     sh_free_pack_product_of_id = fields.Many2one(
         "product.product",
     )
+    sh_sale_lable = fields.Char()
 
     @api.model
     def _load_pos_data_fields(self, config_id):
         result = super()._load_pos_data_fields(config_id)
-        result += ["sh_free_pack_product","sh_free_pack_product_of_id"]
+        result += ["sh_free_pack_product","sh_free_pack_product_of_id","sh_sale_lable"]
         return result

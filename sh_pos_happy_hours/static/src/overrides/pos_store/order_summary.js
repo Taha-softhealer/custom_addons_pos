@@ -8,7 +8,6 @@ patch(OrderSummary.prototype, {
         let result = await super._setValue(val);
 
         if (happy_hours_id && this.pos.sh_sale_hours()) {
-            console.log("udgik");
             
             if (val != "remove" && val != "") {
                 await this.pos.sh_check_quantity();

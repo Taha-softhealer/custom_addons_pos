@@ -1,5 +1,7 @@
 import { PosStore } from "@point_of_sale/app/store/pos_store";
 import { patch } from "@web/core/utils/patch";
+import { serializeDateTime } from "@web/core/l10n/dates";
+const { DateTime } = luxon;
 
 patch(PosStore.prototype, {
     sh_convert_num_to_time(number, period) {
@@ -27,21 +29,24 @@ patch(PosStore.prototype, {
 
     sh_sale_hours() {
         let happy_hours_id = this.config.sh_happy_hours_id;
+        // let date = serializeDateTime(DateTime.now());
         let date = new Date();
         if (happy_hours_id) {
             if (!happy_hours_id.sh_everyday) {
+                let starting_str = happy_hours_id.sh_starting_duration;
+                let ending_str = happy_hours_id.sh_ending_duration;
                 let starting_date = new Date(
-                    happy_hours_id.sh_starting_duration
+                    starting_str.replace(" ", "T") + "Z"
                 );
-                let ending_date = new Date(happy_hours_id.sh_ending_duration);
+                let ending_date = new Date(ending_str.replace(" ", "T") + "Z");
+
                 if (date >= starting_date && date <= ending_date) {
                     return true;
-                }
-                else{
+                } else {
                     return false;
                 }
             } else {
-                let currentTime = date.getHours() + (date.getMinutes() / 60);
+                let currentTime = date.getHours() + date.getMinutes() / 60;
                 let starting_time = this.sh_convert_num_to_time(
                     happy_hours_id.sh_starting_time,
                     happy_hours_id.sh_starting_type
@@ -49,20 +54,13 @@ patch(PosStore.prototype, {
                 let ending_time = this.sh_convert_num_to_time(
                     happy_hours_id.sh_ending_time,
                     happy_hours_id.sh_ending_type
-                );
-                // console.log(currentTime);
-                // console.log(starting_time);
-                // console.log(ending_time);
-                // console.log(
-                //     currentTime >= starting_time && currentTime <= ending_time
-                // );
-
+                );                
                 if (
                     currentTime >= starting_time &&
                     currentTime <= ending_time
                 ) {
                     return true;
-                }else{
+                } else {
                     return false;
                 }
             }
@@ -97,8 +95,6 @@ patch(PosStore.prototype, {
         let SelectedLine = order.get_selected_orderline();
         let vals;
         let freePackLine = order.lines?.filter((line) => {
-            console.log("liiiine", line);
-            console.log("selected liiiine", SelectedLine.product_id);
             return (
                 SelectedLine?.product_id?.id ==
                 line?.sh_free_pack_product_of_id?.id
@@ -129,6 +125,9 @@ patch(PosStore.prototype, {
                     vals["sh_free_pack_product"] = true;
                     vals["sh_free_pack_product_of_id"] =
                         SelectedLine?.product_id;
+                    vals[
+                        "sh_sale_lable"
+                    ] = `Free product of ${SelectedLine?.product_id.name}`;
                     let opts;
                     let configure;
                     let newln = await super.addLineToOrder(
@@ -137,7 +136,6 @@ patch(PosStore.prototype, {
                         (opts = {}),
                         (configure = true)
                     );
-                    console.log("the product after vals", vals);
                     return newln;
                 }
             } else if (
@@ -158,25 +156,31 @@ patch(PosStore.prototype, {
             (opts = {}),
             (configure = true)
         );
-        if (happy_hours_id) {
+        if (
+            this.sh_sale_hours() &&
+            this.sh_check_customer() &&
+            happy_hours_id
+        ) {
+            await this.sh_check_quantity();
 
-            if (happy_hours_id.sh_discount_on_product && happy_hours_id.sh_product_ids.length>0) {
-                let products=happy_hours_id.sh_product_ids
+            if (
+                happy_hours_id.sh_discount_on_product &&
+                happy_hours_id.sh_product_ids.length > 0
+            ) {
+                let products = happy_hours_id.sh_product_ids;
                 for (let index = 0; index < products.length; index++) {
                     const product = products[index];
-                    if (product.id==vals.product_id.id) {
+                    if (product.id == vals.product_id.id) {
                         result.set_discount(happy_hours_id.sh_discount);
+                        result["sh_sale_lable"]="Discounted Product"
                     }
                 }
-                console.log("products from happy hours",happy_hours_id.sh_product_ids);
-                console.log("added product",vals);
-                
             }
-            if (happy_hours_id.sh_set_pricelist && happy_hours_id.sh_offer_pricelist_id) {
+            if (
+                happy_hours_id.sh_set_pricelist &&
+                happy_hours_id.sh_offer_pricelist_id
+            ) {
                 order.set_pricelist(happy_hours_id.sh_offer_pricelist_id);
-            }
-            if (this.sh_sale_hours()) {
-                await this.sh_check_quantity();
             }
         }
         return result;
@@ -237,5 +241,201 @@ patch(PosStore.prototype, {
                 order.removeOrderline(freePackLine[0]);
             }
         }
+    },
+
+    sh_check_customer() {
+        let happy_hours_id = this.config.sh_happy_hours_id;
+        if (!happy_hours_id) {
+            return true;
+        }
+
+        const order = this.get_order();
+        const partner = order?.get_partner();
+
+        const {
+            sh_not_apply_wo_customer,
+            sh_set_on_all_customer,
+            sh_set_on_customer_with_x_order,
+            sh_pos_order_count,
+        } = happy_hours_id;
+
+        if (sh_not_apply_wo_customer) {
+            if (!partner) {
+                return false;
+            }
+
+            if (sh_set_on_all_customer) {
+                const orderCount = partner.pos_order_count;
+                if (sh_set_on_customer_with_x_order) {
+                    return orderCount >= sh_pos_order_count;
+                }
+
+                return true;
+            }
+
+            return true;
+        }
+
+        return true;
+    },
+
+    //if partner is selected after the or between the order
+    async selectPartner() {
+        let happy_hours_id = this.config.sh_happy_hours_id;
+        let result = await super.selectPartner();
+        let vals;
+        const currentOrder = this.get_order();
+        const orderlines = currentOrder.lines;
+        const partner = currentOrder.get_partner();
+
+        if (
+            this.sh_check_customer() &&
+            this.sh_sale_hours() &&
+            happy_hours_id &&
+            partner &&
+            !result
+        ) {
+            for (let index = 0; index < orderlines.length; index++) {
+                const orderline = orderlines[index];
+                if (
+                    happy_hours_id.sh_set_pack_pricelist &&
+                    happy_hours_id.sh_packlist_ids.length > 0
+                ) {
+                    let packlist = happy_hours_id.sh_packlist_ids;
+                    for (
+                        let sub_index = 0;
+                        sub_index < packlist.length;
+                        sub_index++
+                    ) {
+                        const pack = packlist[sub_index];
+                        if (
+                            orderline.product_id.id == pack.sh_product_id.id &&
+                            orderline.qty >= pack.sh_quantity
+                        ) {
+                            vals = {
+                                product_id: pack.sh_pack_product_id,
+                            };
+                            vals["price_unit"] = 0;
+                            vals["qty"] =
+                                Math.floor(orderline?.qty / pack.sh_quantity) ||
+                                1;
+                            vals["sh_free_pack_product"] = true;
+                            vals["sh_free_pack_product_of_id"] =
+                                orderline?.product_id;
+                            vals[
+                                "sh_sale_lable"
+                            ] = `Free product of ${orderline?.product_id.name}`;
+
+                            let opts;
+                            let configure;
+                            let newline = await super.addLineToOrder(
+                                vals,
+                                currentOrder,
+                                (opts = {}),
+                                (configure = true)
+                            );
+                        }
+                    }
+                }
+                if (
+                    happy_hours_id.sh_buy_x_get_1_extra &&
+                    happy_hours_id.sh_one_free_product_ids.length > 0
+                ) {
+                    let extraproducts = happy_hours_id.sh_one_free_product_ids;
+                    for (
+                        let sub_index = 0;
+                        sub_index < extraproducts.length;
+                        sub_index++
+                    ) {
+                        const extraproduct = extraproducts[sub_index];
+                        if (
+                            orderline.product_id.id ==
+                                extraproduct.sh_product_id.id &&
+                            orderline.qty >= extraproduct.sh_quantity
+                        ) {
+                            vals = {
+                                product_id: orderline.product_id,
+                            };
+                            vals["price_unit"] = 0;
+                            vals["qty"] =
+                                Math.floor(
+                                    orderline?.qty / extraproduct.sh_quantity
+                                ) || 1;
+                            vals["sh_free_pack_product"] = true;
+                            vals["sh_free_pack_product_of_id"] =
+                                orderline?.product_id;
+                            vals[
+                                "sh_sale_lable"
+                            ] = `Free product of ${orderline?.product_id.name}`;
+
+                            let opts;
+                            let configure;
+                            let newline = await super.addLineToOrder(
+                                vals,
+                                currentOrder,
+                                (opts = {}),
+                                (configure = true)
+                            );
+                        }
+                    }
+                }
+                if (
+                    happy_hours_id.sh_discount_on_product &&
+                    happy_hours_id.sh_product_ids.length > 0
+                ) {
+                    let products = happy_hours_id.sh_product_ids;
+                    for (let index = 0; index < products.length; index++) {
+                        const product = products[index];
+                        if (
+                            product.id == orderline?.product_id?.id &&
+                            orderline.price_unit != 0
+                        ) {
+                            orderline?.set_discount(happy_hours_id.sh_discount);
+                            orderline["sh_sale_lable"]="Discounted Product"
+                        }
+                    }
+                }
+                if (
+                    happy_hours_id.sh_set_pricelist &&
+                    happy_hours_id.sh_offer_pricelist_id
+                ) {
+                    currentOrder.set_pricelist(
+                        happy_hours_id.sh_offer_pricelist_id
+                    );
+                }
+            }
+        } else if (this.sh_sale_hours() && happy_hours_id && !partner) {
+            for (let index = 0; index < orderlines.length; index++) {
+                const orderline = orderlines[index];
+                if (
+                    happy_hours_id.sh_discount_on_product &&
+                    happy_hours_id.sh_product_ids.length > 0
+                ) {
+                    let products = happy_hours_id.sh_product_ids;
+                    for (let index = 0; index < products.length; index++) {
+                        const product = products[index];
+                        if (
+                            product.id == orderline?.product_id?.id &&
+                            orderline.price_unit != 0
+                        ) {
+                            orderline?.set_discount(0);
+                        }
+                    }
+                }
+                if (
+                    happy_hours_id.sh_set_pricelist &&
+                    happy_hours_id.sh_offer_pricelist_id
+                ) {
+                    currentOrder.set_pricelist(this.config.pricelist_id);
+                }
+            }
+            let removeline = orderlines.filter(
+                (line) => line.sh_free_pack_product == true
+            );
+            removeline.forEach((line) => {
+                currentOrder.removeOrderline(line);
+            });
+        }
+        return result;
     },
 });
