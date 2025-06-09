@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="product_pricelist_item_form_view_inherit_sh_pos_mix_match_price" model="ir.ui.view">
+        <field name="name">product.pricelist.item.form.view.inherit</field>
+        <field name="model">product.pricelist.item</field>
+        <field name="inherit_id" ref="product.product_pricelist_item_form_view" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='date_end']" position="after">
+                <field name="sh_enable_mixmatch_pricelist"></field>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

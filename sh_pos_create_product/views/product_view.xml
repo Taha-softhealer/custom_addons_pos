@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="sh_pos_create_product_inherit_product_view_form_normalized_form" model="ir.ui.view">
+        <field name="name">sh.pos.create.product.inherit.product.view.form.normalized.form</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="point_of_sale.product_product_view_form_normalized_pos" />
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('o_row')]" position="after">
+                <field name="sh_on_hand_qty"></field>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
